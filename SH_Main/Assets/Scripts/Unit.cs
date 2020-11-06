@@ -22,6 +22,8 @@ public class Unit : MonoBehaviour
             hp = value;
         }
     }
+    [SerializeField]
+    protected Vector2 targetPos;
     protected GameObject atkTarget = null;
     protected int atk = 0;
     protected int speed = 10;
@@ -29,6 +31,7 @@ public class Unit : MonoBehaviour
     protected float atk_cool = 0.0f;
 
     public bool isDead;
+    public BattleManager BM;
 
     public virtual void HpChanged(float damage)
     {
@@ -45,6 +48,6 @@ public class Unit : MonoBehaviour
 
     protected virtual void Move()
     {
-
+        targetPos = BM.GetWall().transform.position;
     }
 }

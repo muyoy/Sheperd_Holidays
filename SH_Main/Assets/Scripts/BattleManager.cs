@@ -18,8 +18,13 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 테스트용 오브젝트
     /// </summary>
-    public GameObject wolf, sheep;
+    public GameObject wolf, sheep, wall;
 
+    private void Awake()
+    {
+        SetWall(wall);
+        Debug.Log(walls.Count);
+    }
     private void Start()
     {
         wolf_way = Vector2.left;
@@ -63,6 +68,11 @@ public class BattleManager : MonoBehaviour
             sheeps.Add(unit);
         else
             wolfs.Add(unit);
+    }
+
+    public int GetCount()
+    {
+        return sheeps.Count;
     }
 
     public void RemoveUnit(GameObject unit)

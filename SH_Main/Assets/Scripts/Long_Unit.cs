@@ -13,6 +13,10 @@ public class Long_Unit : Unit
             kind = Kind.Sheep;
         else
             kind = Kind.Wolf;
+        //Init();
+    }
+    private void Start()
+    {
         Init();
     }
 
@@ -22,7 +26,19 @@ public class Long_Unit : Unit
         atk = 30;
         range = 20;
         atk_cool = 2.0f;
+        Move();
     }
 
+    protected override void Move()
+    {
+        base.Move();
+        targetPos += new Vector2(128.0f, 0.0f);
+        transform.position = targetPos;
+    }
+
+    protected override void Attack()
+    {
+        
+    }
 
 }
