@@ -19,7 +19,7 @@ public class BattleManager : MonoBehaviour
     /// 테스트용 오브젝트
     /// </summary>
     public GameObject wolf, sheep, wall;
-
+    // merge test
     private void Awake()
     {
         SetWall(wall);
