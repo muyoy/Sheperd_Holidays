@@ -23,8 +23,8 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         SetWall(wall);
+        Debug.Log(walls.Count);
     }
-
     private void Start()
     {
         wolf_way = Vector2.left;

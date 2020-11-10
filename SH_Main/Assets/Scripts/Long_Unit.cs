@@ -5,15 +5,15 @@ using UnityEngine;
 public class Long_Unit : Unit
 {
     private const float max_hp = 60.0f;
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         type = Type.Long;
 
         if(gameObject.layer == 9)
             kind = Kind.Sheep;
         else
             kind = Kind.Wolf;
+        //Init();
     }
     private void Start()
     {
