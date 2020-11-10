@@ -5,7 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public enum Kind { Sheep, Wolf}
-    public enum Type { Short, Middle, Long }
+    public enum Type { Short = 384, Middle, Long }
 
     [SerializeField]
     protected Kind kind;
@@ -22,16 +22,24 @@ public class Unit : MonoBehaviour
             hp = value;
         }
     }
-    [SerializeField]
+
     protected Vector2 targetPos;
     protected GameObject atkTarget = null;
+    protected Rigidbody2D rb;
+    protected Animator ani;
     protected int atk = 0;
-    protected int speed = 10;
+    protected int speed = 128;
     protected float range = 0;
     protected float atk_cool = 0.0f;
 
     public bool isDead;
     public BattleManager BM;
+
+    protected virtual void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        ani = GetComponent<Animator>();
+    }
 
     public virtual void HpChanged(float damage)
     {
