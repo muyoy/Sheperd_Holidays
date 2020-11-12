@@ -17,38 +17,26 @@ public struct GroundInfo
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject DayMap; // 아침 맵
-    public GameObject NightMap; // 저녁 맵
-    public List<GroundInfo> dayGround;
-    public List<GroundInfo> nightGround;
-
-    private UIManager uiManager;
+    public GameObject MorningMap; // 아침 맵
+    public GameObject EveningMap; // 저녁 맵
+    private List<GroundInfo> morningGround;
+    private List<GroundInfo> eveningGround;
 
     private void Awake()
     {
-        dayGround = new List<GroundInfo>();
-        nightGround = new List<GroundInfo>();
-
-        if(uiManager == null)
-        {
-            uiManager = this;
-        }
-        else
-        {
-            Destroy(uiManager);
-            uiManager = this;
-        }
+        morningGround = new List<GroundInfo>();
+        eveningGround = new List<GroundInfo>();
     }
 
     private void MapGetter() // Map 게임오브젝트에 들어있는 Image를 리스트에 삽입
     {
-        for (int i = 0; i < DayMap.transform.childCount; i++)
+        for (int i = 0; i < MorningMap.transform.childCount; i++)
         {
-            dayGround.Add(new GroundInfo(DayMap.transform.GetChild(i).GetComponent<Image>(), true));
+            morningGround.Add(new GroundInfo(MorningMap.transform.GetChild(i).GetComponent<Image>(), true));
         }
-        for (int i = 0; i < NightMap.transform.childCount; i++)
+        for (int i = 0; i < EveningMap.transform.childCount; i++)
         {
-            nightGround.Add(new GroundInfo(NightMap.transform.GetChild(i).GetComponent<Image>(), true));
+            eveningGround.Add(new GroundInfo(EveningMap.transform.GetChild(i).GetComponent<Image>(), true));
         }
     }
 
@@ -56,30 +44,25 @@ public class UIManager : MonoBehaviour
     {
         if (IsDay)
         {
-            for (int i = 0; i < dayGround.Count; i++)// 아침이면 아침 땅 활성화
+            for (int i = 0; i < morningGround.Count; i++)// 아침이면 아침 땅 활성화
             {
-                dayGround[i].ground.gameObject.SetActive(true);
+                morningGround[i].ground.gameObject.SetActive(true);
             }
-            for (int i = 0; i < nightGround.Count; i++)
+            for (int i = 0; i < eveningGround.Count; i++)
             {
-                nightGround[i].ground.gameObject.SetActive(false);
+                eveningGround[i].ground.gameObject.SetActive(false);
             }
         }
         else
         {
-            for (int i = 0; i < dayGround.Count; i++)// 밤이면 아침 땅 비활성화
+            for (int i = 0; i < morningGround.Count; i++)// 밤이면 아침 땅 비활성화
             {
-                dayGround[i].ground.gameObject.SetActive(false);
+                morningGround[i].ground.gameObject.SetActive(false);
             }
-            for (int i = 0; i < nightGround.Count; i++)
+            for (int i = 0; i < eveningGround.Count; i++)
             {
-                nightGround[i].ground.gameObject.SetActive(true);
+                eveningGround[i].ground.gameObject.SetActive(true);
             }
         }
-    }
-
-    public void StageInit()
-    {
-
     }
 }

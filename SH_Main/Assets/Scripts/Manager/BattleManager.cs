@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private const int ray_distance = 7000, wolf_layer = 1 << 8, sheep_layer = 1 << 9;
+    private const int ray_distance = 100, wolf_layer = 1 << 8, sheep_layer = 1 << 9;
 
     public GameObject farm, Forest;
     public List<GameObject> sheeps = new List<GameObject>();
@@ -18,12 +18,12 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 테스트용 오브젝트
     /// </summary>
-    public GameObject wolf, sheep, wall;
-    // merge test
+    public GameObject wolf, sheep, wall, spawnSheep, spawnWolf;
+
     private void Awake()
     {
         SetWall(wall);
-        Debug.Log(walls.Count);
+        Debug.Log("벽 갯수"+walls.Count);
     }
     private void Start()
     {
