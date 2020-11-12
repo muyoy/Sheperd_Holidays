@@ -7,14 +7,30 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public bool IsDay; // 아침인지 밤인지 구분하는 bool
+    private bool isDay; // 아침인지 밤인지 구분하는 bool
+    public bool IsDay
+    {
+        get { return isDay; }
+        set
+        {
+            isDay = value;
+            uiManager.GroundSet(IsDay);
+        }
+    }
+
+    private List<GroundInfo> dayGround;
+    private List<GroundInfo> nightGround;
+
+    public GameObject uiGameObject;
+    private UIManager uiManager;
     
+
 
     private void Awake()
     {
-        
-
-        IsDay = false; // 밤으로 게임 시작
+        uiManager = uiGameObject.GetComponent<UIManager>();
+        dayGround = uiManager.dayGround;
+        nightGround = uiManager.nightGround;
     }
 
     private void Start()
@@ -22,9 +38,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    
+    private void StageInit()
+    {
+        IsDay = true; // 밤으로 게임 시작
+        uiManager.StageInit();
 
-    
-
+    }
     
 }
