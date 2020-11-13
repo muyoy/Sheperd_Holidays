@@ -3,20 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class GameManager : MonoBehaviour
 {
-    
-
-    private void Awake()
+    private bool isDay = true;
+    public bool IsDay
     {
-        
+        get { return isDay; }
+        set { isDay = value; }
     }
-
-    private void Start()
-    {
-
-    }
-
 }
