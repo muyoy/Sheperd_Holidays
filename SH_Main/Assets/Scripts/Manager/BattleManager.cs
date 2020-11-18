@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
     /// 테스트용 오브젝트
     /// </summary>
     public GameObject wolf, sheep, wall, tile, spawnSheep, spawnWolf;
+    int ucount = 0;
     public GameObject[] sheepUnit;
 
     private void Awake()
@@ -134,16 +135,22 @@ public class BattleManager : MonoBehaviour
         {
             GameObject a = Instantiate(sheepUnit[0], spawnSheep.transform.position, Quaternion.identity);
             AddUnit(a);
+            ucount++;
+            Debug.Log(ucount);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GameObject b = Instantiate(sheepUnit[1], spawnSheep.transform.position, Quaternion.identity);
             AddUnit(b);
+            ucount++;
+            Debug.Log(ucount);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GameObject c = Instantiate(sheepUnit[2], spawnSheep.transform.position, Quaternion.identity);
             AddUnit(c);
+            ucount++;
+            Debug.Log(ucount);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {

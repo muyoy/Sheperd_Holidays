@@ -36,7 +36,8 @@ public class Long_Unit : Unit
         if (kind == Kind.Sheep)
         {
             base.Move();
-            targetPos += new Vector3((int)type * gridSize, 0.0f, 0.0f);
+            float tab = Random.Range(-0.3f, 0.3f);
+            targetPos += new Vector3((int)type * gridSize + tab, 0.0f, 0.0f);
             StartCoroutine(SheepWalk(targetPos));
         }
         else
