@@ -1,21 +1,34 @@
-﻿using System.Collections;
+﻿//*********************************************************************************************
+//
+//  EDITOR : KIM JIHUN
+//  LAST UPDATE : 2020.11.18
+//  Script Purpose :  Manage structure instantiating UI, Check Probabilty to build structures
+//                    - Dragging Structure from UI
+//                    - Change Sprites when we can or can't build structure on the tiles
+//
+//*********************************************************************************************
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler, IBeginDragHandler, IPointerUpHandler
 {
     #region Structure Property
-    private GameObject structure = null;
+    private Structure structureProp; // Structure 프리팹에 존재하는 Structure 프로퍼티
+    private GameObject structure = null; // 건물 드래그시 임시로 나오는 건물 이미지
     public GameObject structurePrefab;
     public Sprite prohibitStruct; // 건설 불가능시 이미지
     public Sprite accessStruct;  // 건설 가능시 이미지
     private bool canStruct;
+    private Vector3 offset; // 건물 칸수에 따른 설치 위치 조정
+    private const float UNIT = 1.28f; // 건물 1칸의 거리
     #endregion Structure Property
 
     #region Mouse Property
     private Vector2 MousePosition;
-    public Canvas canvas;
+    private Canvas canvas;
     #endregion
 
     #region Ray Property
@@ -24,15 +37,10 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     private RaycastHit2D hit = new RaycastHit2D();
     #endregion Ray Property
 
-    #region UIManager
-    public GameObject UIManagerGameObejct;
+    #region Manager
     private UIManager uiManager;
-    #endregion
-
-    #region GameManager
-    public GameObject GameManagerGameObject;
     private GameManager gameManager;
-    #endregion
+    #endregion Manager
 
     #region Ground Property
     public int GroundMask;
@@ -46,11 +54,19 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
 
     private void Awake()
     {
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         rayCamera = Camera.main.GetComponent<Camera>();
+
         GroundMask = 1 << LayerMask.NameToLayer("Ground");
-        uiManager = UIManagerGameObejct.GetComponent<UIManager>();
-        gameManager = GameManagerGameObject.GetComponent<GameManager>();
         Ground = uiManager.MapGetter();
+        structureProp = structurePrefab.GetComponent<Structure>();
+    }
+
+    private void Start()
+    {
+        offset = new Vector3(UNIT * structureProp.buildingSpace / 2 - 0.64f, 1.06f /* 건물 위로 올리기 */ ,structurePrefab.transform.position.z);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -75,7 +91,16 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     public void OnPointerDown(PointerEventData eventData)
     {
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        structure = Instantiate(structurePrefab as GameObject, MousePosition, Quaternion.identity);
+        structure = Instantiate(structurePrefab, MousePosition, Quaternion.identity);
+       
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        ShootRay();
+        canStruct = CheckBuildSpace();
+        BuildStructure(canStruct);
+        GroundSpriteInit(gameManager.IsDay);
     }
 
     private void ShootRay()
@@ -102,7 +127,16 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
             // 큐에 각 타일들의 IsEmpty bool 값을 넣어 건설 가능 지역인지 판단.
             for (int i = 0; i < structTile; i++)
             {
-                isEmpty.Enqueue(Ground[tileName].IsEmpty);
+                if(tileName+i > Ground.Length)
+                {
+                    Debug.Log("Ground Length Out of Range");
+                    isEmpty.Enqueue(false);
+                    break;
+                }
+                else
+                {
+                    isEmpty.Enqueue(Ground[tileName+i].IsEmpty);
+                }
             }
             GroundSpriteInit(gameManager.IsDay);
             if (isEmpty.Contains(false))
@@ -113,9 +147,13 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                 // 타일의 색상 변경
                 for (int i = tileName; i < tileName+structTile; i++)
                 {
+                    if (i > Ground.Length) // 제일 오른쪽에 건물을 놓았을 때 설치 불가능한 예외 처리
+                    {
+                        break;
+                    }
+
                     if (Ground[i].IsEmpty)
                     {
-                        
                         Ground[i].ground.GetComponent<SpriteRenderer>().sprite = accessGround;
                     }
                     else
@@ -128,7 +166,6 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
             }
             else
             {
-
                 // 건물의 색상 변경
                 structure.GetComponent<SpriteRenderer>().sprite = accessStruct;
 
@@ -140,7 +177,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                         Ground[i].ground.GetComponent<SpriteRenderer>().sprite = accessGround;
                     }
                 }
-
+                
                 return true;  // 마우스를 땟을 때 건설 가능
             }
         }
@@ -167,18 +204,32 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
         }
     }
 
+
+    // 건물 위치에 맞게 재배치
     private void BuildStructure(bool available)
     {
         if (available)
         {
-            structure.transform.localPosition = hit.transform.position /* + offset */;
+            structure.transform.SetParent(hit.transform, false);
+            structure.transform.localPosition = offset;
+
+            int tileName;
+            int.TryParse(hit.transform.name, out tileName);
+
+            for (int i= tileName; i<tileName+ structureProp.buildingSpace; i++)
+            {
+                Ground[i].IsEmpty = false;
+            }
+
+            // 건물의 기능 본격적으로 시작
             structure.GetComponent<Structure>().Init();
         }
         else
         {
             Destroy(structure);
-
             structure = null;
         }
     }
+
+    
 }
