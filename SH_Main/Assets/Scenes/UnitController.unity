@@ -4068,7 +4068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &793659753
 Transform:
   m_ObjectHideFlags: 0
@@ -7073,7 +7073,7 @@ GameObject:
   - component: {fileID: 1568223495}
   m_Layer: 0
   m_Name: BattleManager
-  m_TagString: Untagged
+  m_TagString: BattleManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7097,8 +7097,13 @@ MonoBehaviour:
   wolf: {fileID: 0}
   sheep: {fileID: 0}
   wall: {fileID: 836859489}
-  spawnSheep: {fileID: 0}
-  spawnWolf: {fileID: 0}
+  tile: {fileID: 1333292064}
+  spawnSheep: {fileID: 804874811}
+  spawnWolf: {fileID: 1494786938}
+  sheepUnit:
+  - {fileID: 7986671361940532457, guid: 39b68ef7abbc9ac49908fc9cc7369d5c, type: 3}
+  - {fileID: 1665389299982018641, guid: ead0b0901a9bedd448cc27a51519fb58, type: 3}
+  - {fileID: 5544415957998667079, guid: 9d330bed8ec68044faacb419dfe8d024, type: 3}
 --- !u!4 &1568223496
 Transform:
   m_ObjectHideFlags: 0
@@ -8402,7 +8407,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866387944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.56, y: -4.12, z: 0}
+  m_LocalPosition: {x: 2.56, y: -1.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 316882299}
@@ -9064,7 +9069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975396093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.49, y: 0, z: -10}
+  m_LocalPosition: {x: 15.13, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Long_Unit : Unit
 {
+    public GameObject projectile;
     private const float max_hp = 60.0f;
     protected override void Awake()
     {
@@ -15,21 +16,22 @@ public class Long_Unit : Unit
         else
             kind = Kind.Wolf;
     }
-    private void Start()
+    protected override void Start()
     {
         Init();
+        base.Start();
     }
 
-    private void Init()
+    protected override void Init()
     {
         hp = max_hp;
         atk = 30;
-        range = (float)type * gridSize * 3;
+        range = (float)type * gridSize;
         atk_cool = 2.0f;
-        Move();
     }
+    #region Long_UnitMove
 
-    protected override void Move()
+    public override void Move()
     {
         if (kind == Kind.Sheep)
         {
@@ -42,16 +44,16 @@ public class Long_Unit : Unit
             StartCoroutine(WolfWalk());
         }
     }
-
     private IEnumerator SheepWalk(Vector3 _targetPos)
     {
         anim.SetBool(HashCode.walkID, true);
-        while ((_targetPos.x - transform.position.x) >= 0)
+        while ((_targetPos.x - transform.position.x) >= 0 && isMove)
         {
             rb.position += Vector2.right * speed * Time.deltaTime;
             yield return null;
         }
         anim.SetBool(HashCode.walkID, false);
+        isMove = false;
     }
     private IEnumerator WolfWalk()
     {
@@ -59,13 +61,16 @@ public class Long_Unit : Unit
         while (!isTarget)
         {
             rb.position += Vector2.left * speed * Time.deltaTime;
+
             yield return null;
         }
         anim.SetBool(HashCode.walkID, false);
     }
+
+    #endregion
+
     protected override void Attack()
     {
         
     }
-
 }

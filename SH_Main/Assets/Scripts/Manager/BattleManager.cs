@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private const int ray_distance = 100, wolf_layer = 1 << 8, sheep_layer = 1 << 9;
+    private const int ray_distance = 100, wolf_layer = 8, sheep_layer = 9;
 
     public GameObject farm, Forest;
     public List<GameObject> sheeps = new List<GameObject>();
@@ -18,12 +18,12 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 테스트용 오브젝트
     /// </summary>
-    public GameObject wolf, sheep, wall, spawnSheep, spawnWolf;
+    public GameObject wolf, sheep, wall, tile, spawnSheep, spawnWolf;
+    public GameObject[] sheepUnit;
 
     private void Awake()
     {
         SetWall(wall);
-        Debug.Log("벽 갯수"+walls.Count);
     }
     private void Start()
     {
@@ -102,6 +102,22 @@ public class BattleManager : MonoBehaviour
         walls.Pop();
     }
 
+    public void UpdateWall()
+    {
+        for (int i = 0; i < sheeps.Count; i++)
+        {
+            if(!sheeps[i].GetComponent<Unit>().isMove)
+            {
+                sheeps[i].GetComponent<Unit>().Move();
+            }
+            else
+            {
+                sheeps[i].GetComponent<Unit>().isMove = false;
+                StartCoroutine(sheeps[i].GetComponent<Unit>().StartOn());
+            }
+        }
+    }
+
     #endregion
     //test용
     private void Update()
@@ -113,6 +129,29 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             sheep = SetAttack(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GameObject a = Instantiate(sheepUnit[0], spawnSheep.transform.position, Quaternion.identity);
+            AddUnit(a);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GameObject b = Instantiate(sheepUnit[1], spawnSheep.transform.position, Quaternion.identity);
+            AddUnit(b);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GameObject c = Instantiate(sheepUnit[2], spawnSheep.transform.position, Quaternion.identity);
+            AddUnit(c);
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject a = Instantiate(wall);
+            a.transform.SetParent(tile.transform);
+            a.transform.localPosition = new Vector3(0.0f, 2.0f, 0.0f);
+            SetWall(a);
+            UpdateWall();
         }
     }
 }
