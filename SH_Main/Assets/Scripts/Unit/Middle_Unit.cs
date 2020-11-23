@@ -9,21 +9,16 @@ public class Middle_Unit : Unit
     protected override void Awake()
     {
         base.Awake();
-        type = Type.Middle;
-
-        if (gameObject.layer == 9)
-            kind = Kind.Sheep;
-        else
-            kind = Kind.Wolf;
+        Init();
     }
     protected override void Start()
     {
-        Init();
         base.Start();
     }
 
     protected override void Init()
     {
+        type = Type.Middle;
         hp = max_hp;
         atk = 30;
         range = (float)type * gridSize;
@@ -31,11 +26,10 @@ public class Middle_Unit : Unit
     }
 
     #region Middle_UnitMove
-    public override void Move()
+    protected override void Move()
     {
         if (kind == Kind.Sheep)
         {
-            base.Move();
             targetPos += new Vector3((int)type * gridSize, 0.0f, 0.0f);
             StartCoroutine(SheepWalk(targetPos));
         }
@@ -47,7 +41,7 @@ public class Middle_Unit : Unit
     private IEnumerator SheepWalk(Vector3 _targetPos)
     {
         anim.SetBool(HashCode.walkID, true);
-        while ((_targetPos.x - transform.position.x) >= 0 && isMove)
+        while ((_targetPos.x - transform.position.x) >= 0)
         {
             rb.position += Vector2.right * speed * Time.deltaTime;
             yield return null;
