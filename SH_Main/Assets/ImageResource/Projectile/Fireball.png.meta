@@ -1,28 +1,28 @@
 fileFormatVersion: 2
-guid: 2dc158a60b923dc46a95f28c7178ea4c
+guid: 335c66ed2b8f95b4aa78d4b48e8c4e62
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4617211846572232258
-    second: fire_casting_0
+      213: -6607481912129624618
+    second: Fireball_0
   - first:
-      213: 3168530937111750514
-    second: fire_casting_1
+      213: -7250195882505504687
+    second: Fireball_1
   - first:
-      213: -485231267646387753
-    second: fire_casting_2
+      213: 4403933487624526528
+    second: Fireball_2
   - first:
-      213: -8197158245236694549
-    second: fire_casting_3
+      213: 8927358698389672400
+    second: Fireball_3
   - first:
-      213: 1571234567798494252
-    second: fire_casting_4
+      213: 2250600637640065238
+    second: Fireball_4
   - first:
-      213: -7102597002741448783
-    second: fire_casting_5
+      213: -4701697456131926120
+    second: Fireball_5
   - first:
-      213: -2177299997430777205
-    second: fire_casting_6
+      213: -1711208824211276139
+    second: Fireball_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -132,13 +132,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fire_casting_0
+      name: Fireball_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 128
-        height: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +146,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb13650e94e5cefb0800000000000000
-      internalID: -4617211846572232258
+      spriteID: 6d5e1b775328d44a0800000000000000
+      internalID: -6607481912129624618
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fire_casting_1
+      name: Fireball_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 158724f0241226b90800000000000000
+      internalID: -7250195882505504687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball_2
       rect:
         serializedVersion: 2
         x: 128
-        y: 128
-        width: 128
-        height: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,20 +188,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 277a1668912e8fb20800000000000000
-      internalID: 3168530937111750514
+      spriteID: 0ca9e488c2aed1d30800000000000000
+      internalID: 4403933487624526528
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fire_casting_2
+      name: Fireball_3
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
-        width: 128
-        height: 128
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,41 +209,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d94602abbc1449f0800000000000000
-      internalID: -485231267646387753
+      spriteID: 0d19200ef6954eb70800000000000000
+      internalID: 8927358698389672400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fire_casting_3
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: be1a001a108dd3e80800000000000000
-      internalID: -8197158245236694549
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fire_casting_4
+      name: Fireball_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,20 +230,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c249170c3852ec510800000000000000
-      internalID: 1571234567798494252
+      spriteID: 6d0cdc11b5dbb3f10800000000000000
+      internalID: 2250600637640065238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fire_casting_5
+      name: Fireball_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89716e5031730ceb0800000000000000
+      internalID: -4701697456131926120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball_6
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -251,29 +272,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bf77dc38a18e6d90800000000000000
-      internalID: -7102597002741448783
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fire_casting_6
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b8afdab203da8c1e0800000000000000
-      internalID: -2177299997430777205
+      spriteID: 59e7f5804a09048e0800000000000000
+      internalID: -1711208824211276139
       vertices: []
       indices: 
       edges: []
@@ -281,7 +281,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fe0f38c2d4e0fce47bc3168170fac15c
+    spriteID: f85186a807d592542b2ef6c1e0e2703c
     internalID: 0
     vertices: []
     indices: 
