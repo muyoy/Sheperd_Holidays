@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private const int ray_distance = 100, wolf_layer = 8, sheep_layer = 9;
+    private const int ray_distance = 100, wolf_layer = 8, sheep_layer = 9, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9;
 
     public GameObject farm, Forest;
     public List<GameObject> sheeps = new List<GameObject>();
@@ -35,7 +35,7 @@ public class BattleManager : MonoBehaviour
     {
         if(isSheep)
         {
-            farm_ray = Physics2D.Raycast(farm.transform.position, sheep_way, ray_distance, wolf_layer);
+            farm_ray = Physics2D.Raycast(farm.transform.position, sheep_way, ray_distance, wolf_raylayer);
 
 #if UNITY_EDITOR
             Debug.DrawRay(farm.transform.position, sheep_way * ray_distance, Color.green);
@@ -48,7 +48,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            forest_ray = Physics2D.Raycast(Forest.transform.position, wolf_way, ray_distance, sheep_layer);
+            forest_ray = Physics2D.Raycast(Forest.transform.position, wolf_way, ray_distance, sheep_raylayer);
 
 #if UNITY_EDITOR
             Debug.DrawRay(Forest.transform.position, wolf_way * ray_distance, Color.red);           
@@ -125,12 +125,19 @@ public class BattleManager : MonoBehaviour
     }
 
     #endregion
+
+
+
     //test용
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
             wolf = SetAttack(true);
+            for (int i = 0; i < sheeps.Count; i++)
+            {
+                sheeps[i].GetComponent<Unit>().SetTarge(wolf);
+            }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {

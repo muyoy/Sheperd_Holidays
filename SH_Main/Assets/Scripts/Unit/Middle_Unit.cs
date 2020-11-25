@@ -21,47 +21,13 @@ public class Middle_Unit : Unit
         type = Type.Middle;
         hp = max_hp;
         atk = 30;
-        range = (float)type * gridSize;
+        range = 3 * gridSize;
         atk_cool = 2.0f;
+        isMove = true;
     }
 
-    #region Middle_UnitMove
-    protected override void Move()
-    {
-        if (kind == Kind.Sheep)
-        {
-            targetPos += new Vector3((int)type * gridSize, 0.0f, 0.0f);
-            StartCoroutine(SheepWalk(targetPos));
-        }
-        else
-        {
-            StartCoroutine(WolfWalk());
-        }
-    }
-    private IEnumerator SheepWalk(Vector3 _targetPos)
-    {
-        anim.SetBool(HashCode.walkID, true);
-        while ((_targetPos.x - transform.position.x) >= 0)
-        {
-            rb.position += Vector2.right * speed * Time.deltaTime;
-            yield return null;
-        }
-        anim.SetBool(HashCode.walkID, false);
-        isMove = false;
-    }
-    private IEnumerator WolfWalk()
-    {
-        anim.SetBool(HashCode.walkID, true);
-        while (!isTarget)
-        {
-            rb.position += Vector2.left * speed * Time.deltaTime;
-            yield return null;
-        }
-        anim.SetBool(HashCode.walkID, false);
-    } 
-    #endregion
     protected override void Attack()
     {
-
+        anim.SetTrigger(HashCode.AttackID);
     }
 }

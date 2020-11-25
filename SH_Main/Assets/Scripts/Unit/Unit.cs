@@ -54,14 +54,23 @@ public class Unit : MonoBehaviour
             Hp -= damage;
         }
     }
+    public void SetTarge(GameObject obj)
+    {
+        atkTarget = obj;
+    }
     public IEnumerator StartOn()
     {
         yield return new WaitForSeconds(2.0f);
+        Work();
         Move();
     }
 
     protected virtual void Init() {   }
     protected virtual void Attack() {   }
+    protected virtual void Work()
+    {
+        StartCoroutine(AttackCheck());
+    }
     protected virtual void Move()
     {
         if (kind == Kind.Sheep)
@@ -112,5 +121,22 @@ public class Unit : MonoBehaviour
             yield return null;
         }
         anim.SetBool(HashCode.walkID, false);
+    }
+    private IEnumerator AttackCheck()
+    {
+        while (!isDead)
+        {
+            if (atkTarget != null && Mathf.Abs(atkTarget.transform.position.x - transform.position.x) <= range)
+            {
+                if (isMove == false)
+                {
+                    StopCoroutine(walk);
+                }
+                Attack();
+                yield return null;
+            }
+            yield return null;
+        }
+        yield return null;
     }
 }
