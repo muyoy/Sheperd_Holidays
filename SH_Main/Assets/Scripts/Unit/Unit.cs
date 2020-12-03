@@ -54,7 +54,7 @@ public class Unit : MonoBehaviour
             Hp -= damage;
         }
     }
-    public void SetTarge(GameObject obj)
+    public void SetTarget(GameObject obj)
     {
         atkTarget = obj;
     }
@@ -90,7 +90,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            StartCoroutine(WolfWalk());
+            walk = StartCoroutine(WolfWalk());
         }
     }
 
@@ -113,6 +113,7 @@ public class Unit : MonoBehaviour
     }
     private IEnumerator WolfWalk()
     {
+        isMove = false;
         anim.SetBool(HashCode.walkID, true);
         while (!isTarget)
         {
@@ -121,11 +122,12 @@ public class Unit : MonoBehaviour
             yield return null;
         }
         anim.SetBool(HashCode.walkID, false);
+        isMove = true;
     }
     private IEnumerator AttackCheck()
     {
         while (!isDead)
-        {
+        {           
             if (atkTarget != null && Mathf.Abs(atkTarget.transform.position.x - transform.position.x) <= range)
             {
                 if (isMove == false)

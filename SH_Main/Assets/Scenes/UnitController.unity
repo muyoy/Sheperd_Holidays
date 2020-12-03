@@ -3536,6 +3536,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &660713955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 660713957}
+  - component: {fileID: 660713956}
+  m_Layer: 0
+  m_Name: DBManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &660713956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660713955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96063b72d93d91b4b87b3dfaf40adf84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveDatas: []
+--- !u!4 &660713957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660713955}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.095349, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &672524970
 GameObject:
   m_ObjectHideFlags: 0
@@ -7589,12 +7633,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c3323530acd1745a87b5ba4006561a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Daytime: 0
+  db: {fileID: 660713956}
   farm: {fileID: 804874811}
   Forest: {fileID: 1494786938}
   sheeps: []
   wolfs: []
-  wolf: {fileID: 0}
-  sheep: {fileID: 0}
+  wolfUnit:
+  - {fileID: 5436917176446117426, guid: 54b913bd47b55b844b802f7272d044d0, type: 3}
+  - {fileID: 4555492974803038779, guid: 2b1ab5904b8c1be4ab46541d74d16898, type: 3}
+  - {fileID: 8277365240809175334, guid: e4dbe14d9abf4d64391b38c90685c91f, type: 3}
   wall: {fileID: 836859489}
   tile: {fileID: 1333292064}
   spawnSheep: {fileID: 804874811}
