@@ -33,7 +33,7 @@ public class Infantry : Barrack
 
         cost = INFANTRY_COST;
         HP = INFANTRY_HP;
-        
+
     }
 
     protected override void BuildingFunc()
@@ -43,17 +43,18 @@ public class Infantry : Barrack
             transform.position /* + offset */ , Quaternion.identity);
     }
 
-    public void DisciplineUnit(int bootNum) // 한 건물에 존재하는 여러 신병들을 구분하는 ID : bootNum
+    /// <summary>
+    /// OnClick Method
+    /// </summary>
+    /// <param name="bootNum">한 건물에 존재하는 여러 종류의 유닛들을 구분하는 ID</param>
+    public void DisciplineUnit(int bootNum)
     {
         this.bootNum = bootNum;
-        IsReady = false;
-        if(UnitTimerCoroutine == null)
+        IsReady = false;  // 병력 생산 불가능 상태
+        if (UnitTimerCoroutine == null)
         {
-        UnitTimerCoroutine = StartCoroutine(UnitTimer());
+            UnitTimerCoroutine = StartCoroutine(UnitTimer());
         }
         BuildingFunc();
-
     }
-
-    
 }

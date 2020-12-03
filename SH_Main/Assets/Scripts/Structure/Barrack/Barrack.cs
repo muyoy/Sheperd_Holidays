@@ -1,7 +1,7 @@
 ﻿//************************************************************
 //
 //  EDITOR : KIM JIHUN
-//  LAST UPDATE : 2020.11.18
+//  LAST UPDATE : 2020.12.03
 //  Script Purpose :  Fundamental Script of All Barracks
 //
 //************************************************************
@@ -29,7 +29,7 @@ public class Barrack : Structure, IPointerDownHandler
     public List<GameObject> UnitPrefab = new List<GameObject>(); // 인스턴스화 시킬 유닛
     public List<Sprite> unitImage = new List<Sprite>(); // UI에 보여줄 샘플 유닛 이미지 ( 그래픽에게 따로 요청 )
     private GameObject[] unitSpriteQueue = new GameObject[MAXIMUM_UNIT_QUEUE]; 
-    private const int MAXIMUM_UNIT_QUEUE = 1; // 한 건물당 생산할 수 있는 최대 유닛의 갯수 3마리
+    [SerializeField] private const int MAXIMUM_UNIT_QUEUE = 1; // 한 건물당 생산할 수 있는 최대 유닛의 갯수 3마리
     protected bool IsReady = true; // 병력 생산 가능 판별
     public float coolTime = 7;
 

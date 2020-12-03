@@ -66,7 +66,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
 
     private void Start()
     {
-        offset = new Vector3(UNIT * structureProp.buildingSpace / 2 - 0.64f, 1.06f /* 건물 위로 올리기 */ ,structurePrefab.transform.position.z);
+        offset = new Vector3(UNIT * structureProp.buildingSpace / 2 - 0.64f, 1.06f /* 건물 위로 올리기 */ , structurePrefab.transform.position.z);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -92,7 +92,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     {
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         structure = Instantiate(structurePrefab, MousePosition, Quaternion.identity);
-       
+
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -127,7 +127,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
             // 큐에 각 타일들의 IsEmpty bool 값을 넣어 건설 가능 지역인지 판단.
             for (int i = 0; i < structTile; i++)
             {
-                if(tileName+i > Ground.Length)
+                if (tileName + i >= Ground.Length)
                 {
                     Debug.Log("Ground Length Out of Range");
                     isEmpty.Enqueue(false);
@@ -135,7 +135,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                 }
                 else
                 {
-                    isEmpty.Enqueue(Ground[tileName+i].IsEmpty);
+                    isEmpty.Enqueue(Ground[tileName + i].IsEmpty);
                 }
             }
             GroundSpriteInit(gameManager.IsDay);
@@ -145,9 +145,9 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                 structure.GetComponent<SpriteRenderer>().sprite = prohibitStruct;
 
                 // 타일의 색상 변경
-                for (int i = tileName; i < tileName+structTile; i++)
+                for (int i = tileName; i < tileName + structTile; i++)
                 {
-                    if (i > Ground.Length) // 제일 오른쪽에 건물을 놓았을 때 설치 불가능한 예외 처리
+                    if (i >= Ground.Length) // 제일 오른쪽에 건물을 놓았을 때 설치 불가능한 예외 처리
                     {
                         break;
                     }
@@ -177,7 +177,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                         Ground[i].ground.GetComponent<SpriteRenderer>().sprite = accessGround;
                     }
                 }
-                
+
                 return true;  // 마우스를 땟을 때 건설 가능
             }
         }
@@ -198,7 +198,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
         {
             initGround = nightGround;
         }
-        for(int i = 0; i < Ground.Length; i++)
+        for (int i = 0; i < Ground.Length; i++)
         {
             Ground[i].ground.GetComponent<SpriteRenderer>().sprite = initGround;
         }
@@ -216,7 +216,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
             int tileName;
             int.TryParse(hit.transform.name, out tileName);
 
-            for (int i= tileName; i<tileName+ structureProp.buildingSpace; i++)
+            for (int i = tileName; i < tileName + structureProp.buildingSpace; i++)
             {
                 Ground[i].IsEmpty = false;
             }
@@ -231,5 +231,5 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
         }
     }
 
-    
+
 }
