@@ -1,19 +1,17 @@
-﻿using System.Collections;
+﻿//***************************************************************
+//
+//  EDITOR : KIM JIHUN
+//  LAST UPDATE : 2020.11.17
+//  Script Purpose :  Control Nexus ( Main Structure ) Porperty
+//
+//***************************************************************
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MainStructure : Structure
 {
-    public override bool BuildCheck()
-    {
-        if(HP > 0 ){
-            BuildingConstruct();
-            return true;
-        }else{
-            BuildingDestroy();
-            return false;
-        }
-    }
 
     private void Awake() {
         buildingSpace = 4;
