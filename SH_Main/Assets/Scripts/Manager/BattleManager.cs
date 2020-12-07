@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     private const int ray_distance = 100, wolf_layer = 8, sheep_layer = 9, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9;
-    private bool isDay = true, isClear = true;
+    public bool isDay = true, isClear = true;
     public float Daytime;
 
     public DBManager db;
@@ -35,6 +35,8 @@ public class BattleManager : MonoBehaviour
     {
         wolf_way = Vector2.left;
         sheep_way = Vector2.right;
+
+        StartCoroutine(Timer());
     }
 
     public GameObject SetAttack(bool isSheep)
@@ -135,7 +137,6 @@ public class BattleManager : MonoBehaviour
     private IEnumerator WaveSetting()
     {
         isClear = false;
-        yield return new WaitForSeconds(Daytime);
         db.LoadNextWave(currentWave);
         int i = 0;
         while (i < db.waveDatas[currentWave - 1].num.Length)
@@ -145,54 +146,99 @@ public class BattleManager : MonoBehaviour
                 GameObject unit = Instantiate(wolfUnit[i]);
                 unit.transform.position = Forest.transform.position;
                 AddUnit(unit);
-                yield return new WaitForSeconds(2.0f);
             }
             i++;
             yield return null;
         }
+    }
 
-        //wave 시작 시 실행하는 함수로 옮기기
+    private IEnumerator Wave()
+    {
+        for (int i = 0; i < wolfs.Count; i++)
+        {
+            StartCoroutine(wolfs[i].GetComponent<Unit>().StartOn());
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        ReTarget();
+
+        targetsheep = SetAttack(false);
+        for (int k = 0; k < wolfs.Count; k++)
+        {
+            wolfs[k].GetComponent<Unit>().SetTarget(targetsheep);
+        }
+    }
+
+    private void Battle()
+    {
+        while(!isClear && !isDay)
+        {
+            for(int i =0; i< wolfs.Count; i++)
+            {
+                if(wolfs[i].GetComponent<Unit>().isDead == false)
+                {
+                    Battle();
+                }
+            }
+
+            isClear = true;
+            isDay = true;
+        }
+
+    }
+
+    private IEnumerator Timer()
+    {
+        if (isDay)
+        {
+            yield return new WaitForSeconds(Daytime);
+            isDay = false;
+            StartCoroutine(Wave());
+        }
+        yield return null;
+    }
+
+    private void ReTarget()
+    {
         targetwolf = SetAttack(true);
         for (int k = 0; k < sheeps.Count; k++)
         {
             sheeps[k].GetComponent<Unit>().SetTarget(targetwolf);
         }
-        yield return new WaitForSeconds(3.0f);
-        for (int s = 0; s < wolfs.Count; s++)
+    }
+    public void ReTargetWolf()
+    {
+        targetsheep = SetAttack(false);
+        for (int k = 0; k < wolfs.Count; k++)
         {
-            StartCoroutine(wolfs[s].GetComponent<Unit>().StartOn());
-            yield return new WaitForSeconds(2.0f);
+            wolfs[k].GetComponent<Unit>().SetTarget(targetsheep);
         }
-
     }
     //test용
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            targetsheep = SetAttack(false);
-            for (int i = 0; i < wolfs.Count; i++)
-            {
-                wolfs[i].GetComponent<Unit>().SetTarget(targetsheep);
-            }
-        }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             GameObject a = Instantiate(sheepUnit[0], spawnSheep.transform.position, Quaternion.identity);
-            //StartCoroutine(a.GetComponent<Unit>().StartOn());
+            StartCoroutine(a.GetComponent<Unit>().StartOn());
             AddUnit(a);
+            ReTarget();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GameObject b = Instantiate(sheepUnit[1], spawnSheep.transform.position, Quaternion.identity);
-            //StartCoroutine(b.GetComponent<Unit>().StartOn());
+            StartCoroutine(b.GetComponent<Unit>().StartOn());
             AddUnit(b);
+            ReTarget();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GameObject c = Instantiate(sheepUnit[2], spawnSheep.transform.position, Quaternion.identity);
-            //StartCoroutine(c.GetComponent<Unit>().StartOn());
+            StartCoroutine(c.GetComponent<Unit>().StartOn());
             AddUnit(c);
+            ReTarget();
         }
 
         if(isClear)

@@ -17,9 +17,10 @@ public class DBStruct
         {
             int count = 0;
             this.wave = int.Parse(data[count++]);
-            this.num[0] = int.Parse(data[count++]);
-            this.num[1] = int.Parse(data[count++]);
-            this.num[2] = int.Parse(data[count++]);
+            for(int i = 0; i < num.Length; i++)
+            {
+                this.num[i] = int.Parse(data[count++]);
+            }
         }
     }
 }

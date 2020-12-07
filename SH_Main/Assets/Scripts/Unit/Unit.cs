@@ -33,10 +33,13 @@ public class Unit : MonoBehaviour
     protected Rigidbody2D rb;
     protected Animator anim;
     private Coroutine walk = null;
+
+    private BattleManager bm;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        bm = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
 
         if (gameObject.layer == 9)
             kind = Kind.Sheep;
@@ -45,7 +48,7 @@ public class Unit : MonoBehaviour
     }
     protected virtual void Start()
     {
-        StartCoroutine(StartOn());
+        //StartCoroutine(StartOn());
     }
     public virtual void HpChanged(float damage)
     {
@@ -66,7 +69,19 @@ public class Unit : MonoBehaviour
     }
 
     protected virtual void Init() {   }
-    protected virtual void Attack() {   }
+    protected virtual void Attack()
+    {
+        anim.SetBool(HashCode.AttackID, true);
+    }
+
+    public virtual void AttackOn()
+    {
+        if (atkTarget != null)
+        {
+            Debug.Log("Attack! " + atk);
+            atkTarget.GetComponent<Unit>().HpChanged(atk);
+        }
+    }
     protected virtual void Work()
     {
         StartCoroutine(AttackCheck());
@@ -105,6 +120,10 @@ public class Unit : MonoBehaviour
         anim.SetBool(HashCode.walkID, true);
         while ((_targetPos.x - transform.position.x) >= 0)
         {
+            if(transform.position.x > bm.GetWall().transform.position.x)
+            {
+                bm.ReTargetWolf();
+            }
             rb.position += Vector2.right * speed * Time.deltaTime;
             yield return null;
         }

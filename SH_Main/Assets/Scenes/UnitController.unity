@@ -7633,24 +7633,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c3323530acd1745a87b5ba4006561a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Daytime: 0
+  isDay: 1
+  isClear: 1
+  Daytime: 5
   db: {fileID: 660713956}
   farm: {fileID: 804874811}
   Forest: {fileID: 1494786938}
   sheeps: []
   wolfs: []
   wolfUnit:
-  - {fileID: 5436917176446117426, guid: 54b913bd47b55b844b802f7272d044d0, type: 3}
-  - {fileID: 4555492974803038779, guid: 2b1ab5904b8c1be4ab46541d74d16898, type: 3}
-  - {fileID: 8277365240809175334, guid: e4dbe14d9abf4d64391b38c90685c91f, type: 3}
+  - {fileID: 544803551705878375, guid: 54b913bd47b55b844b802f7272d044d0, type: 3}
+  - {fileID: 8404725622229914071, guid: 2b1ab5904b8c1be4ab46541d74d16898, type: 3}
+  - {fileID: 282780812385893316, guid: e4dbe14d9abf4d64391b38c90685c91f, type: 3}
   wall: {fileID: 836859489}
   tile: {fileID: 1333292064}
   spawnSheep: {fileID: 804874811}
   spawnWolf: {fileID: 1494786938}
   sheepUnit:
-  - {fileID: 7986671361940532457, guid: 39b68ef7abbc9ac49908fc9cc7369d5c, type: 3}
-  - {fileID: 1665389299982018641, guid: ead0b0901a9bedd448cc27a51519fb58, type: 3}
-  - {fileID: 5544415957998667079, guid: 9d330bed8ec68044faacb419dfe8d024, type: 3}
+  - {fileID: 5697934992290219143, guid: 39b68ef7abbc9ac49908fc9cc7369d5c, type: 3}
+  - {fileID: 6941644196716287087, guid: ead0b0901a9bedd448cc27a51519fb58, type: 3}
+  - {fileID: 1857162928340999698, guid: 9d330bed8ec68044faacb419dfe8d024, type: 3}
 --- !u!4 &1568223496
 Transform:
   m_ObjectHideFlags: 0

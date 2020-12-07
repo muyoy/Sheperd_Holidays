@@ -28,6 +28,7 @@ public class Long_Unit : Unit
     }
     protected override void Attack()
     {
-        anim.SetTrigger(HashCode.AttackID);
+        base.Attack();
+        //anim.SetBool(HashCode.AttackID, true);
     }
 }
