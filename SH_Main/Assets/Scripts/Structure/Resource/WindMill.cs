@@ -53,7 +53,11 @@ public class WindMill : Structure
         while (isProduction)
         {
             time += Time.deltaTime;
-            if (resourceCreateTime <= time) resource = CreateResource();
+            if (resourceCreateTime <= time)
+            {
+                resource = CreateResource();
+                time = 0.0f;
+            }
             yield return null;
         }
 
@@ -97,7 +101,7 @@ public class WindMill : Structure
                 break;
             case 3:
                 BuildingLevel[1].SetActive(false);
-                BuildingLevel[1].SetActive(true);
+                BuildingLevel[2].SetActive(true);
                 break;
             default:
                 break;

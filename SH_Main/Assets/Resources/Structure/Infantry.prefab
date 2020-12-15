@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 2081625078032743071}
   - component: {fileID: 2081625078032743064}
   - component: {fileID: 21103604532267861}
+  - component: {fileID: 4068319424194845934}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Untagged
@@ -181,8 +182,25 @@ MonoBehaviour:
   buildTime: 0
   buildingSpace: 0
   UnitPrefab:
-  - {fileID: 2242028362225912860, guid: 883d998ad1f2ff44988763505c871d89, type: 3}
+  - {fileID: 1857162928340999698, guid: 9d330bed8ec68044faacb419dfe8d024, type: 3}
+  - {fileID: 6941644196716287087, guid: ead0b0901a9bedd448cc27a51519fb58, type: 3}
+  - {fileID: 5697934992290219143, guid: 39b68ef7abbc9ac49908fc9cc7369d5c, type: 3}
   unitImage:
-  - {fileID: 21300000, guid: f5ec2b623a2aa0c40871cc4642a0e058, type: 3}
+  - {fileID: 21300000, guid: 2b53d1223be59d6408ff6664ff64ac56, type: 3}
+  - {fileID: 21300000, guid: dd320e7086120aa409c130038e9622d2, type: 3}
+  - {fileID: 21300000, guid: 510988d69f187034c912a5cf2547fb33, type: 3}
   coolTime: 7
   boot: {fileID: 0}
+--- !u!65 &4068319424194845934
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081625078032743070}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.56, y: 5.12, z: 0.2}
+  m_Center: {x: 0, y: 2.56, z: 0}
