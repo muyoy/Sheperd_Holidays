@@ -83,7 +83,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        BuildStructure(canStruct);
+        //BuildStructure(canStruct);
 
         GroundSpriteInit(gameManager.IsDay);
     }

@@ -30,7 +30,7 @@ public class Middle_Unit : Unit
     protected override void Attack()
     {
         base.Attack();
-        GameObject obj = Instantiate(projectile, weaponPos.position, Quaternion.Euler(0.0f, 0.0f, -90.0f));
+        //GameObject obj = Instantiate(projectile, weaponPos.position, Quaternion.Euler(0.0f, 0.0f, -90.0f));
         //anim.SetBool(HashCode.AttackID, true);
     }
 }

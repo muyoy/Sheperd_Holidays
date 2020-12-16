@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private const int ray_distance = 100, wolf_layer = 8, sheep_layer = 9, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9;
-    public bool isDay = true, isClear = true;
+    private const int ray_distance = 100, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9;
+    public bool isDay = true;
     public float Daytime;
 
     public DBManager db;
     public GameObject farm, Forest;
-    public List<GameObject> sheeps = new List<GameObject>();
-    public List<GameObject> wolfs = new List<GameObject>();
+    public List<Unit> sheeps = new List<Unit>();
+    public List<Unit> wolfs = new List<Unit>();
 
-    private int currentWave = 1;
+    private int currentWave = 1, curCount = 0, deadCount = 0;
     private Stack<GameObject> walls = new Stack<GameObject>();
     private Vector2 wolf_way, sheep_way;
     private RaycastHit2D farm_ray, forest_ray;
-    private GameObject targetwolf, targetsheep;
+    public GameObject targetwolf, targetsheep;
 
     public GameObject[] wolfUnit;
 
     /// <summary>
     /// 테스트용 오브젝트
+    /// 패배, 승리 조건 만들어야함
     /// </summary>
-    public GameObject wall, tile, spawnSheep, spawnWolf;
+    public GameObject wall, spawnSheep;
     public GameObject[] sheepUnit;
 
     private void Awake()
@@ -41,7 +42,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject SetAttack(bool isSheep)
     {
-        if(isSheep)
+        if (isSheep)
         {
             farm_ray = Physics2D.Raycast(farm.transform.position, sheep_way, ray_distance, wolf_raylayer);
 
@@ -59,7 +60,7 @@ public class BattleManager : MonoBehaviour
             forest_ray = Physics2D.Raycast(Forest.transform.position, wolf_way, ray_distance, sheep_raylayer);
 
 #if UNITY_EDITOR
-            Debug.DrawRay(Forest.transform.position, wolf_way * ray_distance, Color.red);           
+            Debug.DrawRay(Forest.transform.position, wolf_way * ray_distance, Color.red);
 #endif
             if (forest_ray.transform == null)
             {
@@ -70,12 +71,13 @@ public class BattleManager : MonoBehaviour
     }
 
     #region UnitSetting <List>
-    public void AddUnit(GameObject unit)
+    public void AddUnit(Unit unit)
     {
-        if (unit.layer == sheep_layer)
+        if (unit.kind == 0)
         {
-            unit.GetComponent<Unit>().GetPosition(GetWall());
+            unit.GetPosition(GetWall());
             sheeps.Add(unit);
+            ReTargetSheep();
         }
         else
         {
@@ -88,13 +90,29 @@ public class BattleManager : MonoBehaviour
         return sheeps.Count;
     }
 
-    public void RemoveUnit(GameObject unit)
+    public void RemoveUnit(Unit unit)
     {
-        if (unit.layer == sheep_layer)
+        if (unit.kind == 0)
+        {
             sheeps.Remove(unit);
+            Destroy(unit.gameObject);
+            ReTargetWolf();
+        }
         else
+        {
             wolfs.Remove(unit);
-    } 
+            Destroy(unit.gameObject);
+            ReTargetSheep();
+            deadCount++;
+            if (curCount == deadCount)
+            {
+                currentWave++;
+                deadCount = 0;
+                isDay = true;
+                StartCoroutine(Timer());
+            }
+        }
+    }
     #endregion
 
     #region WallSetting <Stack>
@@ -119,101 +137,73 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < sheeps.Count; i++)
         {
-            if(!sheeps[i].GetComponent<Unit>().isMove)
+            if (!sheeps[i].isMove)
             {
-                sheeps[i].GetComponent<Unit>().GetPosition(GetWall());
-                StartCoroutine(sheeps[i].GetComponent<Unit>().StartOn());
+                sheeps[i].GetPosition(GetWall());
+                StartCoroutine(sheeps[i].StartOn());
             }
             else
             {
-                sheeps[i].GetComponent<Unit>().GetPosition(GetWall());
-                StartCoroutine(sheeps[i].GetComponent<Unit>().StartOn());
+                sheeps[i].GetPosition(GetWall());
+                StartCoroutine(sheeps[i].StartOn());
             }
         }
     }
 
     #endregion
 
-    private IEnumerator WaveSetting()
+    private void WaveSetting()
     {
-        isClear = false;
         db.LoadNextWave(currentWave);
         int i = 0;
+        curCount = 0;
         while (i < db.waveDatas[currentWave - 1].num.Length)
         {
             for (int j = 0; j < db.waveDatas[currentWave - 1].num[i]; j++)
             {
                 GameObject unit = Instantiate(wolfUnit[i]);
                 unit.transform.position = Forest.transform.position;
-                AddUnit(unit);
+                AddUnit(unit.GetComponent<Unit>());
+                curCount += 1;
             }
             i++;
-            yield return null;
         }
     }
 
     private IEnumerator Wave()
     {
+        ReTargetWolf();
         for (int i = 0; i < wolfs.Count; i++)
         {
-            StartCoroutine(wolfs[i].GetComponent<Unit>().StartOn());
+            StartCoroutine(wolfs[i].StartOn());
             yield return new WaitForSeconds(1.5f);
         }
-
-        yield return new WaitForSeconds(2.0f);
-
-        ReTarget();
-
-        targetsheep = SetAttack(false);
-        for (int k = 0; k < wolfs.Count; k++)
-        {
-            wolfs[k].GetComponent<Unit>().SetTarget(targetsheep);
-        }
-    }
-
-    private void Battle()
-    {
-        while(!isClear && !isDay)
-        {
-            for(int i =0; i< wolfs.Count; i++)
-            {
-                if(wolfs[i].GetComponent<Unit>().isDead == false)
-                {
-                    Battle();
-                }
-            }
-
-            isClear = true;
-            isDay = true;
-        }
-
+        ReTargetSheep();
     }
 
     private IEnumerator Timer()
     {
-        if (isDay)
-        {
-            yield return new WaitForSeconds(Daytime);
-            isDay = false;
-            StartCoroutine(Wave());
-        }
+        WaveSetting();
+        yield return new WaitForSeconds(Daytime);
+        isDay = false;
+        StartCoroutine(Wave());
         yield return null;
     }
 
-    private void ReTarget()
+    private void ReTargetSheep()
     {
         targetwolf = SetAttack(true);
-        for (int k = 0; k < sheeps.Count; k++)
+        for (int i = 0; i < sheeps.Count; i++)
         {
-            sheeps[k].GetComponent<Unit>().SetTarget(targetwolf);
+            sheeps[i].SetTarget(targetwolf);
         }
     }
     public void ReTargetWolf()
     {
         targetsheep = SetAttack(false);
-        for (int k = 0; k < wolfs.Count; k++)
+        for (int i = 0; i < wolfs.Count; i++)
         {
-            wolfs[k].GetComponent<Unit>().SetTarget(targetsheep);
+            wolfs[i].SetTarget(targetsheep);
         }
     }
     //test용
@@ -223,28 +213,19 @@ public class BattleManager : MonoBehaviour
         {
             GameObject a = Instantiate(sheepUnit[0], spawnSheep.transform.position, Quaternion.identity);
             StartCoroutine(a.GetComponent<Unit>().StartOn());
-            AddUnit(a);
-            ReTarget();
+            AddUnit(a.GetComponent<Unit>());
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GameObject b = Instantiate(sheepUnit[1], spawnSheep.transform.position, Quaternion.identity);
             StartCoroutine(b.GetComponent<Unit>().StartOn());
-            AddUnit(b);
-            ReTarget();
+            AddUnit(b.GetComponent<Unit>());
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GameObject c = Instantiate(sheepUnit[2], spawnSheep.transform.position, Quaternion.identity);
             StartCoroutine(c.GetComponent<Unit>().StartOn());
-            AddUnit(c);
-            ReTarget();
-        }
-
-        if(isClear)
-        {
-            isDay = true;
-            StartCoroutine(WaveSetting());
+            AddUnit(c.GetComponent<Unit>());
         }
     }
 }

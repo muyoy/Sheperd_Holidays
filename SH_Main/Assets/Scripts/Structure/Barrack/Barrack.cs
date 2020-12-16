@@ -24,11 +24,11 @@ public struct UnitInfo  // 병영에서 생산되는 유닛의 기본 정보
     }
 }
 
-public class Barrack : Structure, IPointerDownHandler
+public class Barrack : Structure
 {
     public List<GameObject> UnitPrefab = new List<GameObject>(); // 인스턴스화 시킬 유닛
     public List<Sprite> unitImage = new List<Sprite>(); // UI에 보여줄 샘플 유닛 이미지 ( 그래픽에게 따로 요청 )
-    private GameObject[] unitSpriteQueue = new GameObject[MAXIMUM_UNIT_QUEUE]; 
+    public GameObject[] unitSpriteQueue; 
     [SerializeField] private const int MAXIMUM_UNIT_QUEUE = 1; // 한 건물당 생산할 수 있는 최대 유닛의 갯수 3마리
     protected bool IsReady = true; // 병력 생산 가능 판별
     public float coolTime = 7;
@@ -37,14 +37,9 @@ public class Barrack : Structure, IPointerDownHandler
 
     protected int bootNum; // 신병들을 구분하는 ID
 
-    private void Awake()
+    private void Start()
     {
         unitSpriteQueue = GameObject.FindGameObjectsWithTag("UnitQueue");
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Init();
     }
 
     /// <summary>
@@ -54,7 +49,19 @@ public class Barrack : Structure, IPointerDownHandler
     public override void Init()
     {
         base.Init();
-        for(int i = 0; i < MAXIMUM_UNIT_QUEUE; i++)
+    }
+
+    private void OnClickEvent()
+    {
+#if UNITY_EDITOR
+        Debug.Log("click barrack");
+#endif
+        ClickedBarrack();
+    }
+
+    private void ClickedBarrack()
+    {
+        for (int i = 0; i < unitSpriteQueue.Length; i++)
         {
             Debug.Log(unitSpriteQueue[i]);
             unitSpriteQueue[i].GetComponent<Image>().sprite = unitImage[i];

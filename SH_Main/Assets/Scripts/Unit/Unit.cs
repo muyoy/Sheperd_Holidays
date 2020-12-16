@@ -7,8 +7,8 @@ public class Unit : MonoBehaviour
     public enum Kind { Sheep, Wolf}
     public enum Type { none, Long, Middle, Short }
 
-    [SerializeField] protected Kind kind;
-    [SerializeField] protected Type type;
+    [SerializeField] public Kind kind;
+    [SerializeField] public Type type;
 
     [SerializeField] protected float hp;
     protected virtual float Hp
@@ -17,6 +17,13 @@ public class Unit : MonoBehaviour
         set
         {
             hp = value;
+            //hp = Mathf.Clamp(value, 0, maxHp);
+
+            if (!isDead && hp <= 0)
+            {
+                hp = -1;
+                Dead();
+            }
         }
     }
     protected Vector3 targetPos;
@@ -40,7 +47,6 @@ public class Unit : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         bm = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
-
         if (gameObject.layer == 9)
             kind = Kind.Sheep;
         else
@@ -55,7 +61,16 @@ public class Unit : MonoBehaviour
         if(!isDead)
         {
             Hp -= damage;
+            if(!anim.GetBool(HashCode.AttackID))
+                anim.SetTrigger(HashCode.HitID);
         }
+    }
+    protected virtual void Dead()
+    {
+        rb.bodyType = RigidbodyType2D.Static;
+        GetComponent<BoxCollider2D>().enabled = false;
+        anim.SetTrigger(HashCode.DeadID);
+        StartCoroutine(DeadTemp());
     }
     public void SetTarget(GameObject obj)
     {
@@ -66,6 +81,13 @@ public class Unit : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         Work();
         Move();
+    }
+    protected IEnumerator DeadTemp()
+    {
+        yield return new WaitForSeconds(2.0f);
+        isDead = true;
+        bm.RemoveUnit(GetComponent<Unit>());
+        yield return null;
     }
 
     protected virtual void Init() {   }
@@ -149,11 +171,17 @@ public class Unit : MonoBehaviour
         {           
             if (atkTarget != null && Mathf.Abs(atkTarget.transform.position.x - transform.position.x) <= range)
             {
+                Debug.Log(atkTarget.name);
                 if (isMove == false)
                 {
                     StopCoroutine(walk);
                 }
                 Attack();
+                yield return null;
+            }
+            else
+            {
+                anim.SetBool(HashCode.AttackID, false);
                 yield return null;
             }
             yield return null;
