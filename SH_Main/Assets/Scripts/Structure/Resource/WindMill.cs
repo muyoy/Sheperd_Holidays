@@ -42,36 +42,25 @@ public class WindMill : Structure
         yield return null;
         Level++;
         ChangeBuildingImage();
-        if (resourceCreate != null)
-        {
-            StopCoroutine(resourceCreate);
-            resourceCreate = null;
-        }
         resourceCreate = StartCoroutine(ResourceCreate());
     }
 
     IEnumerator ResourceCreate()
     {
-        if (Level != 3)
+        state = State.Product;
+        isProduction = true;
+        float time = 0.0f;
+        while (isProduction)
         {
-            StartCoroutine(BuildStructure());
-        }
-        else
-        {
-            state = State.Product;
-            isProduction = true;
-            float time = 0.0f;
-            while (isProduction)
+            time += Time.deltaTime;
+            if (resourceCreateTime <= time)
             {
-                time += Time.deltaTime;
-                if (resourceCreateTime <= time)
-                {
-                    resource = CreateResource();
-                    time = 0.0f;
-                }
-                yield return null;
+                resource = CreateResource();
+                time = 0.0f;
             }
+            yield return null;
         }
+
         yield return null;
     }
 
@@ -90,7 +79,7 @@ public class WindMill : Structure
 
     private int CreateResource()
     {
-        switch (Level)
+        switch(Level)
         {
             case 1: return 1;
             case 2: return 2;
