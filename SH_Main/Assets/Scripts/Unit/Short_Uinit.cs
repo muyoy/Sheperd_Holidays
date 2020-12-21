@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Short_Uinit : Unit
 {
-    private const float max_hp = 60.0f;
+    private int targetLayer;
+    public GameObject attackArea;
     protected override void Awake()
     {
         base.Awake();
@@ -18,20 +19,31 @@ public class Short_Uinit : Unit
     protected override void Init()
     {
         type = Type.Short;
-        hp = max_hp;
-        atk = 30;
-        range = 1.5f * gridSize;
-        atk_cool = 2.0f;
-        isMove = true;
+        isMove = false;
     }
-    protected override void Work()
+    public override void Move()
     {
-        base.Work();
-
+        base.Move();
     }
     protected override void Attack()
     {
         base.Attack();
-        //anim.SetBool(HashCode.AttackID, true);
+    }
+    public void RangeAttackOn()
+    {
+        if (kind == Kind.Sheep)
+            targetLayer = 1 << 8;
+        else
+            targetLayer = 1 << 9;
+
+        Collider2D[] targets = Physics2D.OverlapBoxAll(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
+        if (targets != null && atkTarget != null)
+        {
+            for (int i = 0; i < targets.Length; i++)
+            {
+                targets[i].gameObject.GetComponent<Unit>().HpChanged(atk);
+                Debug.Log(targets[i].gameObject.name + " attack :" + atk);
+            }
+        }
     }
 }

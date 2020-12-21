@@ -92,17 +92,21 @@ public class BattleManager : MonoBehaviour
 
     public void RemoveUnit(Unit unit)
     {
-        if (unit.kind == 0)
+        if (unit.kind == Unit.Kind.Sheep)
         {
             sheeps.Remove(unit);
             Destroy(unit.gameObject);
             ReTargetWolf();
+            for (int i = 0; i < wolfs.Count; i++)
+            {
+                StartCoroutine(wolfs[i].StartOn());
+            }
         }
         else
         {
+            ReTargetSheep();
             wolfs.Remove(unit);
             Destroy(unit.gameObject);
-            ReTargetSheep();
             deadCount++;
             if (curCount == deadCount)
             {
@@ -120,6 +124,20 @@ public class BattleManager : MonoBehaviour
     public void SetWall(GameObject wall)
     {
         walls.Push(wall);
+
+        for (int i = 0; i < sheeps.Count; i++)
+        {
+            if (!sheeps[i].isMove)
+            {
+                sheeps[i].GetPosition(GetWall());
+                sheeps[i].Move();
+            }
+            else
+            {
+                sheeps[i].GetPosition(GetWall());
+                sheeps[i].Move();
+            }
+        }
     }
     public GameObject GetWall()
     {
@@ -133,22 +151,22 @@ public class BattleManager : MonoBehaviour
         walls.Pop();
     }
 
-    public void UpdateWall()
-    {
-        for (int i = 0; i < sheeps.Count; i++)
-        {
-            if (!sheeps[i].isMove)
-            {
-                sheeps[i].GetPosition(GetWall());
-                StartCoroutine(sheeps[i].StartOn());
-            }
-            else
-            {
-                sheeps[i].GetPosition(GetWall());
-                StartCoroutine(sheeps[i].StartOn());
-            }
-        }
-    }
+    //public void UpdateWall()
+    //{
+    //    for (int i = 0; i < sheeps.Count; i++)
+    //    {
+    //        if (!sheeps[i].isMove)
+    //        {
+    //            sheeps[i].GetPosition(GetWall());
+    //            sheeps[i].Move();
+    //        }
+    //        else
+    //        {
+    //            sheeps[i].GetPosition(GetWall());
+    //            sheeps[i].Move();
+    //        }
+    //    }
+    //}
 
     #endregion
 
@@ -212,18 +230,21 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             GameObject a = Instantiate(sheepUnit[0], spawnSheep.transform.position, Quaternion.identity);
+            a.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[1]);
             StartCoroutine(a.GetComponent<Unit>().StartOn());
             AddUnit(a.GetComponent<Unit>());
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GameObject b = Instantiate(sheepUnit[1], spawnSheep.transform.position, Quaternion.identity);
+            b.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[2]);
             StartCoroutine(b.GetComponent<Unit>().StartOn());
             AddUnit(b.GetComponent<Unit>());
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GameObject c = Instantiate(sheepUnit[2], spawnSheep.transform.position, Quaternion.identity);
+            c.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[3]);
             StartCoroutine(c.GetComponent<Unit>().StartOn());
             AddUnit(c.GetComponent<Unit>());
         }

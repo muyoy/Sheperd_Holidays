@@ -6,9 +6,10 @@ public class Unit : MonoBehaviour
 {
     public enum Kind { Sheep, Wolf}
     public enum Type { none, Long, Middle, Short }
-
+    public enum AtkType { Single, Multiple }
     [SerializeField] public Kind kind;
     [SerializeField] public Type type;
+    [SerializeField] public AtkType Atktype;
 
     [SerializeField] protected float hp;
     protected virtual float Hp
@@ -28,10 +29,14 @@ public class Unit : MonoBehaviour
     }
     protected Vector3 targetPos;
     protected GameObject atkTarget = null;
-    protected int atk = 0;
-    [SerializeField] protected float speed = 1.7f;
-    protected float range = 0;
+
+    protected float range = 0.0f;
+    protected float maxHp = 0.0f;
+    [SerializeField] protected float atk = 0.0f;
+    protected float rangeAtk = 0.0f;
     protected float atk_cool = 0.0f;
+    [SerializeField] protected float movespeed = 0.0f;
+
     protected float tab = 0.0f;
     [SerializeField] protected bool isTarget;
     protected float gridSize = 1.28f;
@@ -54,74 +59,50 @@ public class Unit : MonoBehaviour
     }
     protected virtual void Start()
     {
-        //StartCoroutine(StartOn());
-    }
-    public virtual void HpChanged(float damage)
-    {
-        if(!isDead)
-        {
-            Hp -= damage;
-            if(!anim.GetBool(HashCode.AttackID))
-                anim.SetTrigger(HashCode.HitID);
-        }
-    }
-    protected virtual void Dead()
-    {
-        rb.bodyType = RigidbodyType2D.Static;
-        GetComponent<BoxCollider2D>().enabled = false;
-        anim.SetTrigger(HashCode.DeadID);
-        StartCoroutine(DeadTemp());
-    }
-    public void SetTarget(GameObject obj)
-    {
-        atkTarget = obj;
+
     }
     public IEnumerator StartOn()
     {
-        yield return new WaitForSeconds(2.0f);
-        Work();
+        if (kind == Kind.Sheep)
+        {
+            yield return new WaitForSeconds(2.0f);
+        }
+        else
+        {
+            yield return null;
+        }
+        StartCoroutine(AttackCheck());
         Move();
     }
-    protected IEnumerator DeadTemp()
-    {
-        yield return new WaitForSeconds(2.0f);
-        isDead = true;
-        bm.RemoveUnit(GetComponent<Unit>());
-        yield return null;
-    }
-
     protected virtual void Init() {   }
-    protected virtual void Attack()
-    {
-        anim.SetBool(HashCode.AttackID, true);
-    }
 
-    public virtual void AttackOn()
+    public void SetUnitData(DBStruct.SheepData sheepData)
     {
-        if (atkTarget != null)
-        {
-            Debug.Log("Attack! " + atk);
-            atkTarget.GetComponent<Unit>().HpChanged(atk);
-        }
+        maxHp = sheepData.hp;
+        hp = maxHp;
+        float atkRange = sheepData.atkRange;
+        range = atkRange * gridSize;
+        atk = sheepData.atk;
+        rangeAtk = sheepData.rangeAtk;
+        atk_cool = sheepData.atkDelay;
+        movespeed = sheepData.moveSpeed;
+        Atktype = (AtkType)sheepData.type;
     }
-    protected virtual void Work()
-    {
-        StartCoroutine(AttackCheck());
-    }
-    protected virtual void Move()
+    public virtual void Move()
     {
         if (kind == Kind.Sheep)
         {
             targetPos += new Vector3((int)type * gridSize, 0.0f, 0.0f);
             tab = Random.Range(-0.3f, 0.3f);
             targetPos += new Vector3(tab, 0.0f, 0.0f);
-            if (isMove)
+            if (!isMove)
             {
                 walk = StartCoroutine(SheepWalk(targetPos));
             }
             else
             {
                 StopCoroutine(walk);
+                anim.SetBool(HashCode.walkID, false);
                 walk = StartCoroutine(SheepWalk(targetPos));
             }
         }
@@ -130,15 +111,13 @@ public class Unit : MonoBehaviour
             walk = StartCoroutine(WolfWalk());
         }
     }
-
     public void GetPosition(GameObject point)
     {
         targetPos = point.transform.position;
     }
-
     private IEnumerator SheepWalk(Vector3 _targetPos)
     {
-        isMove = false;
+        isMove = true;
         anim.SetBool(HashCode.walkID, true);
         while ((_targetPos.x - transform.position.x) >= 0)
         {
@@ -146,24 +125,28 @@ public class Unit : MonoBehaviour
             {
                 bm.ReTargetWolf();
             }
-            rb.position += Vector2.right * speed * Time.deltaTime;
+            rb.position += Vector2.right * movespeed * Time.deltaTime;
             yield return null;
         }
         anim.SetBool(HashCode.walkID, false);
-        isMove = true;
+        isMove = false;
     }
     private IEnumerator WolfWalk()
     {
-        isMove = false;
+        isMove = true;
         anim.SetBool(HashCode.walkID, true);
         while (!isTarget)
         {
-            rb.position += Vector2.left * speed * Time.deltaTime;
+            rb.position += Vector2.left * movespeed * Time.deltaTime;
 
             yield return null;
         }
         anim.SetBool(HashCode.walkID, false);
-        isMove = true;
+        isMove = false;
+    }
+    public void SetTarget(GameObject obj)
+    {
+        atkTarget = obj;
     }
     private IEnumerator AttackCheck()
     {
@@ -171,21 +154,63 @@ public class Unit : MonoBehaviour
         {           
             if (atkTarget != null && Mathf.Abs(atkTarget.transform.position.x - transform.position.x) <= range)
             {
-                Debug.Log(atkTarget.name);
-                if (isMove == false)
+                isTarget = true;
+                if (isMove)
                 {
                     StopCoroutine(walk);
+                    anim.SetBool(HashCode.walkID, false);
                 }
                 Attack();
-                yield return null;
+                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length * 2.0f + atk_cool);
             }
             else
             {
-                anim.SetBool(HashCode.AttackID, false);
+                isTarget = false;
                 yield return null;
             }
             yield return null;
         }
         yield return null;
+    }
+    protected virtual void Attack()
+    {
+        anim.SetTrigger(HashCode.AttackID);
+
+    }
+    public virtual void HpChanged(float damage)
+    {
+        if(!isDead)
+        {
+            Hp -= damage;
+        }
+    }
+    protected virtual void Dead()
+    {
+        if (gameObject.layer == 9)
+        {
+            bm.targetsheep = null;
+        }
+        else
+        {
+            bm.targetwolf = null;
+        }
+        rb.bodyType = RigidbodyType2D.Static;
+        GetComponent<BoxCollider2D>().enabled = false;
+        anim.SetTrigger(HashCode.DeadID);
+        StartCoroutine(DeadTemp());
+    }
+    protected IEnumerator DeadTemp()
+    {
+        isDead = true;
+        yield return new WaitForSeconds(2.0f);
+        bm.RemoveUnit(GetComponent<Unit>());
+        yield return null;
+    }
+    private void Update()
+    {
+        if (gameObject.layer == 9)
+            Debug.DrawRay(transform.position, transform.TransformDirection(1.0f, 0.0f, 0.0f) * range, Color.green);
+        else
+            Debug.DrawRay(transform.position, transform.TransformDirection(-1.0f, 0.5f, 0.0f) * range, Color.red);
     }
 }

@@ -952,9 +952,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6363262243293365516}
   - component: {fileID: 4531313850663163615}
-  - component: {fileID: 4609977423663424219}
-  - component: {fileID: 6383278448279722303}
-  - component: {fileID: 6499051341663433780}
+  - component: {fileID: 5268511975316956883}
+  - component: {fileID: 5355074648944451591}
+  - component: {fileID: 2442101365143872536}
+  - component: {fileID: 164941756553546687}
   m_Layer: 8
   m_Name: Unit_WolfSlingshot
   m_TagString: Untagged
@@ -973,6 +974,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4614295212645314331}
   - {fileID: 1237320137372321892}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -996,7 +998,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &4609977423663424219
+--- !u!50 &5268511975316956883
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -1017,7 +1019,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &6383278448279722303
+--- !u!61 &5355074648944451591
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1030,7 +1032,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.008837119, y: 0.59573495}
+  m_Offset: {x: 0.07345173, y: 0.60170245}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1041,9 +1043,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.72310483, y: 1.1914699}
+  m_Size: {x: 0.85309654, y: 1.2034049}
   m_EdgeRadius: 0
---- !u!114 &6499051341663433780
+--- !u!114 &2442101365143872536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1062,8 +1064,20 @@ MonoBehaviour:
   isTarget: 0
   isDead: 0
   isMove: 0
-  projectile: {fileID: 0}
-  weaponPos: {fileID: 0}
+  projectile: {fileID: 3749911129788525622, guid: 7e6475bf2eda98d4c8e378f89e0364fd,
+    type: 3}
+  weaponPos: {fileID: 4614295212645314331}
+--- !u!210 &164941756553546687
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087805458909608264}
+  m_Enabled: 1
+  m_SortingLayerID: 543211051
+  m_SortingLayer: 4
+  m_SortingOrder: 1
 --- !u!1 &2354250449635117596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1447,7 @@ Transform:
   - {fileID: 7922750714351635288}
   - {fileID: 2901923961186675764}
   m_Father: {fileID: 6363262243293365516}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4095705396295082576
 GameObject:
@@ -2482,6 +2496,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7304489057798564626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4614295212645314331}
+  m_Layer: 0
+  m_Name: WeaponPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4614295212645314331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7304489057798564626}
+  m_LocalRotation: {x: -0, y: -0, z: -0.06869962, w: 0.9976374}
+  m_LocalPosition: {x: -0.679551, y: 0.6684274, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6363262243293365516}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8527354541920685046
 GameObject:
   m_ObjectHideFlags: 0

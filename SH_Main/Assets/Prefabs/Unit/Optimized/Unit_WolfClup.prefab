@@ -596,9 +596,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5670760206604098245}
   - component: {fileID: 8122323756767343568}
-  - component: {fileID: 8374743211063587305}
-  - component: {fileID: 8204844307430057332}
-  - component: {fileID: 635453683205740214}
+  - component: {fileID: 686153438134354191}
+  - component: {fileID: 45300235679306301}
+  - component: {fileID: 4411257144459936290}
+  - component: {fileID: 6205079749512760309}
   m_Layer: 8
   m_Name: Unit_WolfClup
   m_TagString: Untagged
@@ -640,7 +641,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &8374743211063587305
+--- !u!50 &686153438134354191
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -661,7 +662,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &8204844307430057332
+--- !u!61 &45300235679306301
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -674,7 +675,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.04213287, y: 0.801952}
+  m_Offset: {x: 0, y: 0.8063462}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -685,9 +686,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9157343, y: 1.603904}
+  m_Size: {x: 1, y: 1.6126924}
   m_EdgeRadius: 0
---- !u!114 &635453683205740214
+--- !u!114 &4411257144459936290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -706,6 +707,18 @@ MonoBehaviour:
   isTarget: 0
   isDead: 0
   isMove: 0
+  attackArea: {fileID: 7527852780320885718}
+--- !u!210 &6205079749512760309
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525254289209200490}
+  m_Enabled: 1
+  m_SortingLayerID: 543211051
+  m_SortingLayer: 4
+  m_SortingOrder: 0
 --- !u!1 &2651205799822619876
 GameObject:
   m_ObjectHideFlags: 0

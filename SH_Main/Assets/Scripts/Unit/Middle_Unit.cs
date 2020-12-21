@@ -7,6 +7,7 @@ public class Middle_Unit : Unit
     public GameObject projectile;
     public Transform weaponPos;
     private const float max_hp = 60.0f;
+    private const float proj_speed = 2.0f;
     protected override void Awake()
     {
         base.Awake();
@@ -20,17 +21,31 @@ public class Middle_Unit : Unit
     protected override void Init()
     {
         type = Type.Middle;
-        hp = max_hp;
-        atk = 30;
-        range = 3 * gridSize;
-        atk_cool = 2.0f;
-        isMove = true;
+        isMove = false;
     }
-
+    public override void Move()
+    {
+        base.Move();
+    }
+    public void AttackOn_Proj()
+    {
+        Vector2 direction;
+        GameObject obj = Instantiate(projectile, weaponPos.position, Quaternion.Euler(0.0f, 0.0f, -90.0f));
+        obj.GetComponent<Projectile>().SetAtk(atk);
+        if(kind == Kind.Sheep)
+        {
+            direction = Vector2.right;
+        }
+        else
+        {
+            direction = Vector2.left;
+        }
+        obj.GetComponent<Rigidbody2D>().AddForce(direction * proj_speed * 100.0f, ForceMode2D.Force);
+    }
     protected override void Attack()
     {
         base.Attack();
         //GameObject obj = Instantiate(projectile, weaponPos.position, Quaternion.Euler(0.0f, 0.0f, -90.0f));
-        //anim.SetBool(HashCode.AttackID, true);
+
     }
 }
