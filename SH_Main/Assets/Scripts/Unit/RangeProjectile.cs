@@ -5,7 +5,9 @@ using UnityEngine;
 public class RangeProjectile : MonoBehaviour
 {
     private float atk = 0;
+    private Color aColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     private int targetLayer;
+    public GameObject effect;
 
     public void SetAtk(float _atk)
     {
@@ -27,7 +29,11 @@ public class RangeProjectile : MonoBehaviour
                 targets[i].gameObject.GetComponent<Unit>().HpChanged(atk);
                 Debug.Log(targets[i].gameObject.name + " attack :" + atk);
             }
-            Destroy(gameObject);
+            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f); 
+            GetComponent<SpriteRenderer>().color = aColor;
+            effect.SetActive(true);
+            Destroy(gameObject, effect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         }
     }
 }

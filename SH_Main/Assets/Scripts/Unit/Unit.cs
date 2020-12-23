@@ -88,6 +88,17 @@ public class Unit : MonoBehaviour
         movespeed = sheepData.moveSpeed;
         Atktype = (AtkType)sheepData.type;
     }
+    public void SetUnitData(DBStruct.WolfData wolfData)
+    {
+        maxHp = wolfData.hp;
+        hp = maxHp;
+        float atkRange = wolfData.atkRange;
+        range = atkRange * gridSize;
+        atk = wolfData.atk;
+        atk_cool = wolfData.atkDelay;
+        movespeed = wolfData.moveSpeed;
+        Atktype = (AtkType)wolfData.type;
+    }
     public virtual void Move()
     {
         if (kind == Kind.Sheep)

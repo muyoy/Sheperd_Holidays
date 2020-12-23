@@ -7,7 +7,7 @@ using System.Text;
 
 public class DBStruct
 {
-    public enum AttackType { Single, Multiple};
+    public enum AttackType { Single, Multiple };
 
     [Serializable]
     public class WaveData
@@ -19,7 +19,7 @@ public class DBStruct
         {
             int count = 0;
             this.wave = int.Parse(data[count++]);
-            for(int i = 0; i < num.Length; i++)
+            for (int i = 0; i < num.Length; i++)
             {
                 this.num[i] = int.Parse(data[count++]);
             }
@@ -59,28 +59,23 @@ public class DBStruct
     [Serializable]
     public class WolfData
     {
+        public int num;
         public string name;
         public float atkRange;
-        public int cost;
-        public float waitingTime;
         public AttackType type;
         public float hp;
         public float atk;
-        public float RangeAtk;
         public float atkDelay;
         public float moveSpeed;
-
         public WolfData(string[] data)
         {
             int count = 0;
+            this.num =int.Parse(data[count++]);
             this.name = data[count++];
             this.atkRange = float.Parse(data[count++]);
-            this.cost = int.Parse(data[count++]);
-            this.waitingTime = float.Parse(data[count++]);
             this.type = (AttackType)Enum.Parse(typeof(AttackType), data[count++]);
             this.hp = float.Parse(data[count++]);
             this.atk = float.Parse(data[count++]);
-            this.RangeAtk = float.Parse(data[count++]);
             this.atkDelay = float.Parse(data[count++]);
             this.moveSpeed = float.Parse(data[count++]);
         }
@@ -108,6 +103,7 @@ public class DBManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        LoadWolfDB(wolfUnitPath);
     }
 
     private void Start()

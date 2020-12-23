@@ -8,7 +8,6 @@ public class BattleManager : MonoBehaviour
     public bool isDay = true;
     public float Daytime;
 
-    public DBManager db;
     public GameObject farm, Forest;
     public List<Unit> sheeps = new List<Unit>();
     public List<Unit> wolfs = new List<Unit>();
@@ -172,15 +171,17 @@ public class BattleManager : MonoBehaviour
 
     private void WaveSetting()
     {
-        db.LoadNextWave(currentWave);
+        DBManager.instance.LoadNextWave(currentWave);
         int i = 0;
         curCount = 0;
-        while (i < db.waveDatas[currentWave - 1].num.Length)
+        while (i < DBManager.instance.waveDatas[currentWave - 1].num.Length)
         {
-            for (int j = 0; j < db.waveDatas[currentWave - 1].num[i]; j++)
+            for (int j = 0; j < DBManager.instance.waveDatas[currentWave - 1].num[i]; j++)
             {
                 GameObject unit = Instantiate(wolfUnit[i]);
                 unit.transform.position = Forest.transform.position;
+                Debug.Log(DBManager.instance.WolfDatas[0].num);
+                unit.GetComponent<Unit>().SetUnitData(DBManager.instance.WolfDatas[i]);
                 AddUnit(unit.GetComponent<Unit>());
                 curCount += 1;
             }
