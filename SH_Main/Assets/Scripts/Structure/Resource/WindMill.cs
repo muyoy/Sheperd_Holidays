@@ -128,7 +128,7 @@ public class WindMill : Structure
         }
     }
 
-    protected override int HpChange(float damage)
+    public override int HpChange(float damage)
     {
         return base.HpChange(damage);
     }

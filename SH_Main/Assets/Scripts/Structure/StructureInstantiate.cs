@@ -39,7 +39,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
 
     #region Manager
     private UIManager uiManager;
-    private GameManager gameManager;
+    private BattleManager BattleManager;
     #endregion Manager
 
     #region Ground Property
@@ -56,7 +56,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        BattleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
         rayCamera = Camera.main.GetComponent<Camera>();
 
         GroundMask = 1 << LayerMask.NameToLayer("Ground");
@@ -85,7 +85,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     {
         //BuildStructure(canStruct);
 
-        GroundSpriteInit(gameManager.IsDay);
+        GroundSpriteInit(BattleManager.isDay);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -100,7 +100,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
         ShootRay();
         canStruct = CheckBuildSpace();
         BuildStructure(canStruct);
-        GroundSpriteInit(gameManager.IsDay);
+        GroundSpriteInit(BattleManager.isDay);
     }
 
     private void ShootRay()
@@ -138,7 +138,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                     isEmpty.Enqueue(Ground[tileName + i].IsEmpty);
                 }
             }
-            GroundSpriteInit(gameManager.IsDay);
+            GroundSpriteInit(BattleManager.isDay);
             if (isEmpty.Contains(false))
             {
                 // 건물의 색상 변경

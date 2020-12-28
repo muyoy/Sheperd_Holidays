@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+
 
 public class Unit : MonoBehaviour
 {
-    public enum Kind { Sheep, Wolf}
+    public enum Kind { Sheep, Wolf }
     public enum Type { none, Long, Middle, Short }
     public enum AtkType { Single, Multiple }
     [SerializeField] public Kind kind;
@@ -45,7 +47,10 @@ public class Unit : MonoBehaviour
     protected Rigidbody2D rb;
     protected Animator anim;
     private Coroutine walk = null;
+    private Coroutine attack = null;
 
+    public GameObject[] dmgTMP;
+    private int count = 0;
     private BattleManager bm;
     protected virtual void Awake()
     {
@@ -71,10 +76,19 @@ public class Unit : MonoBehaviour
         {
             yield return null;
         }
-        StartCoroutine(AttackCheck());
+
+
+        if (attack != null)
+        {
+            StopCoroutine(attack);
+            attack = StartCoroutine(AttackCheck());
+        }
+        else
+            attack = StartCoroutine(AttackCheck());
+
         Move();
     }
-    protected virtual void Init() {   }
+    protected virtual void Init() { }
 
     public void SetUnitData(DBStruct.SheepData sheepData)
     {
@@ -119,7 +133,16 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            walk = StartCoroutine(WolfWalk());
+            if (!isMove)
+            {
+                walk = StartCoroutine(WolfWalk());
+            }
+            else
+            {
+                StopCoroutine(walk);
+                anim.SetBool(HashCode.walkID, false);
+                walk = StartCoroutine(WolfWalk());
+            }
         }
     }
     public void GetPosition(GameObject point)
@@ -132,7 +155,7 @@ public class Unit : MonoBehaviour
         anim.SetBool(HashCode.walkID, true);
         while ((_targetPos.x - transform.position.x) >= 0)
         {
-            if(transform.position.x > bm.GetWall().transform.position.x)
+            if (transform.position.x > bm.GetWall().transform.position.x)
             {
                 bm.ReTargetWolf();
             }
@@ -144,6 +167,7 @@ public class Unit : MonoBehaviour
     }
     private IEnumerator WolfWalk()
     {
+        yield return new WaitForSeconds(1.0f);
         isMove = true;
         anim.SetBool(HashCode.walkID, true);
         while (!isTarget)
@@ -162,17 +186,18 @@ public class Unit : MonoBehaviour
     private IEnumerator AttackCheck()
     {
         while (!isDead)
-        {           
+        {
             if (atkTarget != null && Mathf.Abs(atkTarget.transform.position.x - transform.position.x) <= range)
             {
                 isTarget = true;
                 if (isMove)
                 {
                     StopCoroutine(walk);
+                    isMove = false;
                     anim.SetBool(HashCode.walkID, false);
                 }
                 Attack();
-                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length * 2.0f + atk_cool);
+                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length + atk_cool);
             }
             else
             {
@@ -186,15 +211,19 @@ public class Unit : MonoBehaviour
     protected virtual void Attack()
     {
         anim.SetTrigger(HashCode.AttackID);
-
     }
     public virtual void HpChanged(float damage)
     {
-        if(!isDead)
+        if (!isDead)
         {
             Hp -= damage;
         }
+        StartCoroutine(dmgTMP[count].GetComponent<DmgEffect>().Dmg(damage));
+        ++count;
+        if (count >= dmgTMP.Length)
+            count = 0;
     }
+
     protected virtual void Dead()
     {
         if (gameObject.layer == 9)
