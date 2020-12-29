@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private const int ray_distance = 100, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9;
+    private const int ray_distance = 100, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9, structure = 1 << 10;
     public bool isDay = true;
     public float Daytime;
 
@@ -56,7 +56,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            forest_ray = Physics2D.Raycast(Forest.transform.position, wolf_way, ray_distance, sheep_raylayer);
+            forest_ray = Physics2D.Raycast(Forest.transform.position, wolf_way, ray_distance, sheep_raylayer | structure);
 
 #if UNITY_EDITOR
             Debug.DrawRay(Forest.transform.position, wolf_way * ray_distance, Color.red);
@@ -180,7 +180,6 @@ public class BattleManager : MonoBehaviour
             {
                 GameObject unit = Instantiate(wolfUnit[i]);
                 unit.transform.position = Forest.transform.position;
-                Debug.Log(DBManager.instance.WolfDatas[0].num);
                 unit.GetComponent<Unit>().SetUnitData(DBManager.instance.WolfDatas[i]);
                 AddUnit(unit.GetComponent<Unit>());
                 curCount += 1;

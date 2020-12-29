@@ -28,7 +28,7 @@ public class Structure : MonoBehaviour
     public int buildingSpace; // 건물이 지어질 때 필요한 공간
 
     protected virtual void BuildingDestroy(){ /* 건물 파괴 기능 생길 시 */ } 
-    protected virtual int HpChange(float damage){ return HP; }
+    public virtual int HpChange(float damage){ return HP; }
 
     public virtual void Init()
     {
