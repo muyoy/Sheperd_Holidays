@@ -25,6 +25,7 @@ public class WindMill : Structure
 
     IEnumerator BuildStructure()
     {
+
         state = State.Build;
         StopResourceCreate();
         float time = 0.0f;
