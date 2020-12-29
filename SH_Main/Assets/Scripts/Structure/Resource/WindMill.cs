@@ -122,8 +122,4 @@ public class WindMill : Structure
         return base.HpChange(damage);
     }
 
-    protected override void BuildingFunc()
-    {
-        base.BuildingFunc();
-    }
 }

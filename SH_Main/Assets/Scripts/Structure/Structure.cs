@@ -1,7 +1,7 @@
 ﻿//************************************************************
 //
 //  EDITOR : KIM JIHUN
-//  LAST UPDATE : 2020.11.17
+//  LAST UPDATE : 2020.12.24
 //  Script Purpose :  Fundamental Script of All Structures
 //
 //************************************************************
@@ -27,7 +27,6 @@ public class Structure : MonoBehaviour
     [SerializeField]protected float buildTime; // 건물이 지어질 때 필요한 시간
     public int buildingSpace; // 건물이 지어질 때 필요한 공간
 
-    protected virtual void BuildingFunc(){ /* TODO : 건물 각각의 기능 */ }
     protected virtual void BuildingDestroy(){ /* 건물 파괴 기능 생길 시 */ } 
     protected virtual int HpChange(float damage){ return HP; }
 
