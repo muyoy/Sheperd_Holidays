@@ -33,7 +33,7 @@ public class RangeProjectile : MonoBehaviour
                 }
             }
         }
-        else
+        else if(other.gameObject.layer == 10)
         {
             targetLayer = 1 << 10;
             Collider2D[] targets = Physics2D.OverlapBoxAll(transform.position, transform.localScale * 2.5f, 0, targetLayer);

@@ -7,7 +7,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public enum Kind { Sheep, Wolf }
-    public enum Type { none, Long, Middle, Short }
+    public enum Type { Short, Middle, Long }
     public enum AtkType { Single, Multiple }
     [SerializeField] public Kind kind;
     [SerializeField] public Type type;
@@ -117,8 +117,14 @@ public class Unit : MonoBehaviour
     {
         if (kind == Kind.Sheep)
         {
-            targetPos += new Vector3((int)type * gridSize, 0.0f, 0.0f);
-            tab = Random.Range(-0.3f, 0.3f);
+            if (type == Type.Short)
+                targetPos = bm.rallyPoint[2];
+            else if (type == Type.Middle)
+                targetPos = bm.rallyPoint[1];
+            else
+                targetPos = bm.rallyPoint[0];
+
+            tab = Random.Range(-0.6f, 0.0f);
             targetPos += new Vector3(tab, 0.0f, 0.0f);
             if (!isMove)
             {
