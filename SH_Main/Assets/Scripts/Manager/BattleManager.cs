@@ -111,7 +111,7 @@ public class BattleManager : MonoBehaviour
             Destroy(unit.gameObject);
             ReTargetSheep();
             deadCount++;
-            
+
             if (curCount == deadCount)
             {
                 currentWave++;
@@ -211,9 +211,9 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < wolfs.Count; i++)
         {
             StartCoroutine(wolfs[i].StartOn());
-            yield return new WaitForSeconds(1.5f);
-            ReTargetSheep();
+            yield return new WaitForSeconds(0.3f);
         }
+        ReTargetSheep();
     }
 
     private IEnumerator Timer()

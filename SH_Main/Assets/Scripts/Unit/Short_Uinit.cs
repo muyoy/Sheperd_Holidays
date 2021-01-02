@@ -29,6 +29,13 @@ public class Short_Uinit : Unit
     {
         base.Attack();
     }
+    public void AttackOn()
+    {
+        if (atkTarget != null && atkTarget.layer == 8)
+        {
+            atkTarget.GetComponent<Unit>().HpChanged(atk);
+        }
+    }
     public void RangeAttackOn()
     {
         if (kind == Kind.Sheep)
