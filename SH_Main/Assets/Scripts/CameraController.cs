@@ -1,9 +1,21 @@
-﻿using System.Collections;
+﻿// ==============================================================
+// 카메라 이동 제어
+// 
+//
+// AUTHOR: Yang SeEun
+// CREATED: 2020-12-08
+// UPDATED: 2021-01-04
+// ==============================================================
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private bool MovingFromMouse = true;
     public float offset = 300.0f;
     public float speed = 2.0f;
 
@@ -13,9 +25,10 @@ public class CameraController : MonoBehaviour
     private float screenWidth;
     private float screenHeight;
 
+    //auto
     public bool autoMoving = false;
     [SerializeField] private Vector3 startingPoint;
-    private IEnumerator Cor_movement = null;
+    private IEnumerator Cor_autoMovement = null;
 
     private void Awake()
     {
@@ -26,28 +39,35 @@ public class CameraController : MonoBehaviour
     {
         screenWidth = Screen.width;
         screenHeight = Screen.height;
+
+        //Cursor.lockState = CursorLockMode.Confined;
     }
 
-    [SerializeField] private float arrowDuration = 10.0f;
-    [SerializeField] private float mouseDuration = 10.0f;
-    [SerializeField] private bool MovingFromMouse = true;
+    private void Clamp()
+    {
+
+    }
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Cor_movement == null)
+        #region 테스트용
+        if (Input.GetKeyDown(KeyCode.T) && Cor_autoMovement == null)
         {
-            Cor_movement = Movement(startingPoint, 2.0f);
-            StartCoroutine(Cor_movement);
+            Cor_autoMovement = AutoMovement(startingPoint, 2.0f, 3.0f);
+            StartCoroutine(Cor_autoMovement);
         }
 
-        if (Input.GetKeyDown(KeyCode.T) && Cor_movement == null)
+        #endregion
+
+        if (Input.GetKeyDown(KeyCode.Space) && Cor_autoMovement == null)
         {
-            Cor_movement = Movement(startingPoint, 2.0f, 3.0f);
-            StartCoroutine(Cor_movement);
+            Cor_autoMovement = AutoMovement(startingPoint, 2.0f);
+            StartCoroutine(Cor_autoMovement);
         }
 
         if (autoMoving.Equals(false))
         {
+            //키보드 입력으로 이동
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 if (MovingFromMouse.Equals(false))
@@ -62,6 +82,14 @@ public class CameraController : MonoBehaviour
                 }
             }
 
+            //마우스 커서로 이동
+            CursorMovement();
+        }
+    }
+    private void CursorMovement()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject()) //포인터 위치에 UI가 없다면
+        {
             curMousePos = Input.mousePosition;
             if ((curMousePos.x > screenWidth - offset) && curMousePos.x < screenWidth)      //Right
             {
@@ -84,7 +112,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private IEnumerator Movement(Vector3 targetPos, float speed, float duration)
+    private IEnumerator AutoMovement(Vector3 targetPos, float speed, float duration)
     {
         autoMoving = true;
         float offest = (targetPos - transform.position).magnitude / duration;
@@ -97,10 +125,10 @@ public class CameraController : MonoBehaviour
         transform.position = targetPos;
 
         autoMoving = false;
-        Cor_movement = null;
+        Cor_autoMovement = null;
     }
 
-    private IEnumerator Movement(Vector3 targetPos, float speed)
+    private IEnumerator AutoMovement(Vector3 targetPos, float speed)
     {
         autoMoving = true;
 
@@ -112,6 +140,6 @@ public class CameraController : MonoBehaviour
         transform.position = targetPos;
 
         autoMoving = false;
-        Cor_movement = null;
+        Cor_autoMovement = null;
     }
 }
