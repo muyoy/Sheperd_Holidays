@@ -32,17 +32,32 @@ public class Short_Uinit : Unit
     public void RangeAttackOn()
     {
         if (kind == Kind.Sheep)
-            targetLayer = 1 << 8;
-        else
-            targetLayer = 1 << 9;
-
-        Collider2D[] targets = Physics2D.OverlapBoxAll(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
-        if (targets != null && atkTarget != null)
         {
-            for (int i = 0; i < targets.Length; i++)
+            targetLayer = 1 << 8;
+            Collider2D[] targets = Physics2D.OverlapBoxAll(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
+            if (targets != null && atkTarget != null)
             {
-                targets[i].gameObject.GetComponent<Unit>().HpChanged(atk);
-                Debug.Log(targets[i].gameObject.name + " attack :" + atk);
+                for (int i = 0; i < targets.Length; i++)
+                {
+                    targets[i].gameObject.GetComponent<Unit>().HpChanged(atk);
+                    Debug.Log(targets[i].gameObject.name + " attack :" + atk);
+                }
+            }
+        }
+        else
+        {
+            targetLayer = 1 << 9 | 1 << 10 ;
+            Collider2D[] targets = Physics2D.OverlapBoxAll(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
+            if (targets != null && atkTarget != null)
+            {
+                for (int i = 0; i < targets.Length; i++)
+                {
+                    Debug.Log(targets[i].gameObject.name + " attack :" + atk);
+                    if(targets[i].gameObject.layer == 9)
+                        targets[i].gameObject.GetComponent<Unit>().HpChanged(atk);
+                    else
+                        targets[i].gameObject.GetComponent<Structure>().HpChange(atk);
+                }
             }
         }
     }

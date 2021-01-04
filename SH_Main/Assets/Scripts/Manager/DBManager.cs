@@ -13,7 +13,7 @@ public class DBStruct
     public class WaveData
     {
         public int wave;
-        public int[] num = new int[3];
+        public int[] num = new int[6];
 
         public WaveData(string[] data)
         {

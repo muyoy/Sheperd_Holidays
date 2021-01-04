@@ -13,10 +13,14 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private bool isDay = true;
-    public bool IsDay
+    public BattleManager BM;
+    public int money;
+    public int population;
+    public int maxPopulation;
+
+    private void Start()
     {
-        get { return isDay; }
-        set { isDay = value; }
+        money = 50;
+        maxPopulation = 5;
     }
 }
