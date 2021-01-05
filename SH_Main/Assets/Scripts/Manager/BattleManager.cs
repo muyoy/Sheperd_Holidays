@@ -14,7 +14,8 @@ public class BattleManager : MonoBehaviour
     public List<Unit> wolfs = new List<Unit>();
     public UIManager uiManager;
 
-    private int currentWave = 1, curCount = 0, deadCount = 0;
+    public int currentWave = 1;
+    private int curCount = 0, deadCount = 0;
     private Stack<GameObject> walls = new Stack<GameObject>();
     public Vector3[] rallyPoint = new Vector3[3];
     private Vector2 wolf_way, sheep_way;
@@ -29,7 +30,6 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public GameObject wall, spawnSheep;
     public GameObject[] sheepUnit;
-    public TMPro.TextMeshProUGUI testWaveUI;
 
     private void Awake()
     {
@@ -185,7 +185,6 @@ public class BattleManager : MonoBehaviour
 
     private void WaveSetting()
     {
-        testWaveUI.text = "Day " + currentWave.ToString();
         Forest.GetComponent<BoxCollider2D>().enabled = true;
         DBManager.instance.LoadNextWave(currentWave);
         int i = 0;
@@ -244,6 +243,15 @@ public class BattleManager : MonoBehaviour
             wolfs[i].SetTarget(targetsheep);
         }
     }
+
+    public GameObject CreateUnit(int index)
+    {
+        GameObject unit = Instantiate(sheepUnit[index]);
+        unit.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[index]);
+        StartCoroutine(unit.GetComponent<Unit>().StartOn());
+        AddUnit(unit.GetComponent<Unit>());
+        return unit;
+    }
     //test용
 
     public void SceneReset()
@@ -254,24 +262,23 @@ public class BattleManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GameObject a = Instantiate(sheepUnit[0], spawnSheep.transform.position, Quaternion.identity);
-            a.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[1]);
-            StartCoroutine(a.GetComponent<Unit>().StartOn());
-            AddUnit(a.GetComponent<Unit>());
+            CreateUnit(0).transform.position = spawnSheep.transform.position;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            GameObject b = Instantiate(sheepUnit[1], spawnSheep.transform.position, Quaternion.identity);
-            b.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[2]);
-            StartCoroutine(b.GetComponent<Unit>().StartOn());
-            AddUnit(b.GetComponent<Unit>());
+            CreateUnit(1).transform.position = spawnSheep.transform.position;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            GameObject c = Instantiate(sheepUnit[2], spawnSheep.transform.position, Quaternion.identity);
-            c.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[3]);
-            StartCoroutine(c.GetComponent<Unit>().StartOn());
-            AddUnit(c.GetComponent<Unit>());
+            CreateUnit(2).transform.position = spawnSheep.transform.position;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            CreateUnit(3).transform.position = spawnSheep.transform.position;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            CreateUnit(4).transform.position = spawnSheep.transform.position;
         }
     }
 }

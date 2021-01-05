@@ -31,9 +31,26 @@ public class Short_Uinit : Unit
     }
     public void AttackOn()
     {
-        if (atkTarget != null && atkTarget.layer == 8)
+        if (kind == Kind.Sheep)
         {
-            atkTarget.GetComponent<Unit>().HpChanged(atk);
+            targetLayer = 1 << 8;
+            Collider2D targets = Physics2D.OverlapBox(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
+            if (targets != null && atkTarget != null)
+            {
+                targets.gameObject.GetComponent<Unit>().HpChanged(atk);
+            }
+        }
+        else
+        {
+            targetLayer = 1 << 9 | 1 << 10;
+            Collider2D targets = Physics2D.OverlapBox(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
+            if (targets != null && atkTarget != null)
+            {
+                if (targets.gameObject.layer == 9)
+                    targets.gameObject.GetComponent<Unit>().HpChanged(atk);
+                else
+                    targets.gameObject.GetComponent<Structure>().HpChange(atk);
+            }
         }
     }
     public void RangeAttackOn()
@@ -53,14 +70,14 @@ public class Short_Uinit : Unit
         }
         else
         {
-            targetLayer = 1 << 9 | 1 << 10 ;
+            targetLayer = 1 << 9 | 1 << 10;
             Collider2D[] targets = Physics2D.OverlapBoxAll(attackArea.transform.position, attackArea.transform.localScale * 1.5f, 0, targetLayer);
             if (targets != null && atkTarget != null)
             {
                 for (int i = 0; i < targets.Length; i++)
                 {
                     Debug.Log(targets[i].gameObject.name + " attack :" + atk);
-                    if(targets[i].gameObject.layer == 9)
+                    if (targets[i].gameObject.layer == 9)
                         targets[i].gameObject.GetComponent<Unit>().HpChanged(atk);
                     else
                         targets[i].gameObject.GetComponent<Structure>().HpChange(atk);

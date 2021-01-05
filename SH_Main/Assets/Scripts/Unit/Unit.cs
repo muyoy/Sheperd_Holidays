@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
@@ -44,10 +44,13 @@ public class Unit : MonoBehaviour
     protected float gridSize = 1.28f;
     public bool isDead;
     public bool isMove;
+    public bool isHit;
+    [SerializeField] protected Image HpBar;
     protected Rigidbody2D rb;
     protected Animator anim;
     private Coroutine walk = null;
     private Coroutine attack = null;
+    private Coroutine revenge = null;
 
     public GameObject[] dmgTMP;
     private int count = 0;
@@ -202,6 +205,12 @@ public class Unit : MonoBehaviour
                     isMove = false;
                     anim.SetBool(HashCode.walkID, false);
                 }
+                if (isHit)
+                {
+                    StopCoroutine(revenge);
+                    isHit = false;
+                    anim.SetBool(HashCode.walkID, false);
+                }
                 Attack();
                 yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length + atk_cool);
             }
@@ -218,11 +227,53 @@ public class Unit : MonoBehaviour
     {
         anim.SetTrigger(HashCode.AttackID);
     }
+    private IEnumerator HitAttack()
+    {
+        while(Mathf.Abs(atkTarget.transform.position.x - transform.position.x) >= range)
+        {
+            anim.SetBool(HashCode.walkID, true);
+            rb.position += Vector2.right * movespeed * Time.deltaTime;
+            //TODO : 버그 수정하기
+            //if(Mathf.Abs(bm.GetWall().transform.position.x - transform.position.x) > (1.28f * 5.0f)+0.64f)
+            //{
+            //    transform.localScale = Vector3.one;
+            //    float temp = movespeed;
+            //    movespeed = 2.0f;
+            //    rb.position += Vector2.left * movespeed * Time.deltaTime;
+            //    if(targetPos.x - transform.position.x >= 0.0f)
+            //    {
+            //        transform.localScale = new Vector3(-1.0f, 0.0f, 0.0f);
+            //        movespeed = temp;
+            //        anim.SetBool(HashCode.walkID, false);
+            //    }
+            //}
+            //else
+            //{
+            //    rb.position += Vector2.right * movespeed * Time.deltaTime;
+            //}
+            yield return null;
+        }
+        yield return new WaitForSeconds(5.0f);
+    }
     public virtual void HpChanged(float damage)
     {
         if (!isDead)
         {
             Hp -= damage;
+            HpBar.fillAmount = Hp / maxHp;
+            if (kind == Kind.Sheep)
+            {
+                isHit = true;
+                if (revenge != null)
+                {
+                    StopCoroutine(revenge);
+                    revenge = StartCoroutine(HitAttack());
+                }
+                else
+                {
+                    revenge = StartCoroutine(HitAttack());
+                }
+            }
         }
         StartCoroutine(dmgTMP[count].GetComponent<DmgEffect>().Dmg(damage));
         ++count;
