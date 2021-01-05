@@ -1,10 +1,9 @@
 ﻿// ==============================================================
 // 카메라 이동 제어
-// 
 //
 // AUTHOR: Yang SeEun
 // CREATED: 2020-12-08
-// UPDATED: 2021-01-04
+// UPDATED: 2021-01-05
 // ==============================================================
 
 
@@ -15,20 +14,28 @@ using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private bool MovingFromMouse = true;
-    public float offset = 300.0f;
-    public float speed = 2.0f;
-
-    private Vector3 curMousePos;
-    private Vector3 cameraMove;
-
+    //스크린 사이즈
     private float screenWidth;
     private float screenHeight;
 
-    //auto
-    public bool autoMoving = false;
-    [SerializeField] private Vector3 startingPoint;
-    private IEnumerator Cor_autoMovement = null;
+    //카메라 이동 범위
+    private float xMin = 8.96f;
+    private float xMax = 47.0f;
+
+    public float speed = 2.0f;
+
+    //마우스로 카메라 이동
+    [SerializeField] private bool MovingFromMouse = true;       //마우스로 움직이고 있는지
+    public float offset = 300.0f;                               //마우스 이동범위
+
+    private Vector3 curMousePos;                                //현재 마우스위치
+    private Vector3 cameraMoveDir;                              //카메라 이동방향
+
+
+    //자동이동
+    public bool autoMoving = false;                             //자동 이동 중인지
+    [SerializeField] private Vector3 startingPoint;             //카메라 처음 시작 위치
+    private IEnumerator Cor_autoMovement = null;              
 
     private void Awake()
     {
@@ -40,16 +47,26 @@ public class CameraController : MonoBehaviour
         screenWidth = Screen.width;
         screenHeight = Screen.height;
 
+        //TODO: 잠시 주석 (다시 활성화 해야함!)
         //Cursor.lockState = CursorLockMode.Confined;
     }
 
-    private void Clamp()
+    /// <summary>
+    /// 이동 제한걸기 (x축만)
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 ClampMove(Vector3 _cameraMoveDir)
     {
+        Vector3 curPos = transform.position + _cameraMoveDir;
 
+        float x = Mathf.Clamp(curPos.x, xMin, xMax);
+        return new Vector3(x, transform.position.y, transform.position.z);
     }
+
 
     private void FixedUpdate()
     {
+#if UNITY_EDITOR
         #region 테스트용
         if (Input.GetKeyDown(KeyCode.T) && Cor_autoMovement == null)
         {
@@ -58,7 +75,7 @@ public class CameraController : MonoBehaviour
         }
 
         #endregion
-
+#endif
         if (Input.GetKeyDown(KeyCode.Space) && Cor_autoMovement == null)
         {
             Cor_autoMovement = AutoMovement(startingPoint, 2.0f);
@@ -76,32 +93,36 @@ public class CameraController : MonoBehaviour
                     // 버그 (현재 동시입력시 h =0으로 멈춤)
                     //
                     float h = Input.GetAxisRaw("Horizontal");
-                    cameraMove = Vector3.right * h * speed * 2 * Time.deltaTime;
-                    transform.position += cameraMove;
+                    cameraMoveDir = Vector3.right * h * speed * 2 * Time.deltaTime;
+
+                    transform.position = ClampMove(cameraMoveDir);
                     return;
                 }
             }
 
-            //마우스 커서로 이동
             CursorMovement();
         }
     }
+
+    /// <summary>
+    /// 마우스 커서로 카메라 이동
+    /// </summary>
     private void CursorMovement()
     {
-        if (!EventSystem.current.IsPointerOverGameObject()) //포인터 위치에 UI가 없다면
+        if (!EventSystem.current.IsPointerOverGameObject())         //포인터 위치에 UI가 없다면
         {
             curMousePos = Input.mousePosition;
             if ((curMousePos.x > screenWidth - offset) && curMousePos.x < screenWidth)      //Right
             {
-                cameraMove = Vector3.right * speed * Time.deltaTime;
-                transform.position += cameraMove;
+                cameraMoveDir = Vector3.right * speed * Time.deltaTime;
+                    transform.position = ClampMove(cameraMoveDir);
                 MovingFromMouse = true;
                 return;
             }
             else if ((curMousePos.x < offset) && curMousePos.x > 0)         //Left
             {
-                cameraMove = Vector3.left * speed * Time.deltaTime;
-                transform.position += cameraMove;
+                cameraMoveDir = Vector3.left * speed * Time.deltaTime;
+                    transform.position = ClampMove(cameraMoveDir);
                 MovingFromMouse = true;
                 return;
             }
@@ -112,6 +133,18 @@ public class CameraController : MonoBehaviour
         }
     }
 
+
+
+
+
+
+    /// <summary>
+    /// 자동으로 카메라 이동
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <param name="speed"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator AutoMovement(Vector3 targetPos, float speed, float duration)
     {
         autoMoving = true;
