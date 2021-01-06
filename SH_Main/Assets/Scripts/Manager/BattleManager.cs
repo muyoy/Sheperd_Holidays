@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     private const int ray_distance = 100, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9, structure = 1 << 10;
     private Environment environment;
+    private GameManager gm;
     public bool _isDay = true;
     public bool isDay
     {
@@ -15,6 +16,7 @@ public class BattleManager : MonoBehaviour
         {
             _isDay = value;
             if(environment!= null) environment.Chenge(_isDay);
+            if(gm!= null) gm.DayUIChange(_isDay);
         }
     }
     public float Daytime;
@@ -44,6 +46,7 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         environment = GameObject.Find("Environment").GetComponent<Environment>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         SetWall(wall);
     }
     private void Start()
