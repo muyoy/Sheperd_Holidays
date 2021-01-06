@@ -4,7 +4,7 @@
 //
 // AUTHOR: Yang SeEun
 // CREATED: 2020-12-29
-// UPDATED: 2021-01-04
+// UPDATED: 2021-01-05
 // ==============================================================
 
 
@@ -16,9 +16,10 @@ public class Environment : MonoBehaviour
 {
     private BattleManager battleManager;
     private SkyRotation sky;
+    private OrbitMovement sunMoon;
 
 
-    private SpriteRenderer bg_spriteRenderer;
+    private SpriteRenderer mountian_renderer;
     private Sprite dayMountainImage;
     private Sprite nightMountainImage;
 
@@ -26,23 +27,24 @@ public class Environment : MonoBehaviour
 
     private void Awake()
     {
-        if(battleManager != null) battleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
-        sky = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("Sky").GetComponent<SkyRotation>();
-        bg_spriteRenderer = transform.Find("Background").GetComponent<SpriteRenderer>();
+        if(battleManager == null) battleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
+        sky = Camera.main.transform.Find("Sky").GetComponent<SkyRotation>();
+        sunMoon = Camera.main.transform.Find("SunMoon").GetComponent<OrbitMovement>();
 
+        mountian_renderer = transform.Find("Background").GetComponent<SpriteRenderer>();
         dayMountainImage = Resources.Load<Sprite>("Sprite/Environment/Mountian/Morning_background_mountain");
         nightMountainImage = Resources.Load<Sprite>("Sprite/Environment/Mountian/night_background_mountain");
     }
 
-    #region Test
+    #region 임시Test
     private void Start()
     {
-        Chenge(true);
+        //Chenge(true);
     }
     #endregion
 
 
-    private void Chenge(bool isDay)
+    public void Chenge(bool isDay)
     {
         if(isDay)
         {
@@ -53,25 +55,37 @@ public class Environment : MonoBehaviour
             StartCoroutine(ChangeToNighttime());
         }
     }
+
     private IEnumerator ChangeToDaytime()
     {
         //하늘 회전
-        StartCoroutine(sky.Rotation(179.0f, duration));
-        //TODO: 해와 달 회전
+        StartCoroutine(sky.Rotation(-180.0f, duration));
 
         yield return new WaitForSeconds(duration*0.5f);
 
         //산 변경
-        bg_spriteRenderer.sprite = dayMountainImage;
+        mountian_renderer.sprite = dayMountainImage;
+        //TODO: 타일 변경
+        //TODO: 건물 변경
+
+
+        //해와 달 회전
+        StartCoroutine(sunMoon.MoveEllipse(-90.0f,90.0f, battleManager.Daytime));
+    }
+
+    private IEnumerator ChangeToNighttime()
+    {
+        //하늘 회전
+        StartCoroutine(sky.Rotation(0.0f, duration));
+        //해와 달 회전
+        StartCoroutine(sunMoon.MoveEllipse(-90.0f,90.0f, duration));
+
+        yield return new WaitForSeconds(duration*0.5f);
+
+        //산 변경
+        mountian_renderer.sprite = nightMountainImage;
         //TODO: 타일 변경
         //TODO: 건물 변경
     }
-    private IEnumerator ChangeToNighttime()
-    {
-        StartCoroutine(sky.Rotation(0f, duration));
 
-        yield return new WaitForSeconds(duration*0.5f);
-        bg_spriteRenderer.sprite = nightMountainImage;
-
-    }
 }

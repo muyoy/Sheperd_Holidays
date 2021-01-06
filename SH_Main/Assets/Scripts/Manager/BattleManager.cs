@@ -6,7 +6,17 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     private const int ray_distance = 100, wolf_raylayer = 1 << 8, sheep_raylayer = 1 << 9, structure = 1 << 10;
-    public bool isDay = true;
+    private Environment environment;
+    public bool _isDay = true;
+    public bool isDay
+    {
+        get { return _isDay; }
+        set
+        {
+            _isDay = value;
+            if(environment!= null) environment.Chenge(_isDay);
+        }
+    }
     public float Daytime;
 
     public GameObject farm, Forest;
@@ -33,6 +43,7 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+        environment = GameObject.Find("Environment").GetComponent<Environment>();
         SetWall(wall);
     }
     private void Start()
