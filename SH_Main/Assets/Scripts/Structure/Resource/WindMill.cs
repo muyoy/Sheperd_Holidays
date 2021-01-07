@@ -17,32 +17,36 @@ public class WindMill : Structure
 
     private Coroutine resourceCreate = null;
 
+    public BuildingEffect effect;
+
     public override void Init()
     {
         base.Init();
+
+        effect = transform.Find("BuildingEffect").GetComponent<BuildingEffect>();
         StartCoroutine(BuildStructure());
+        Invoke("BuildButton", 5.0f);
+        Invoke("BuildButton", 10.0f);
     }
 
     IEnumerator BuildStructure()
     {
-
         state = State.Build;
         StopResourceCreate();
-        float time = 0.0f;
-#if UNITY_EDITOR
-        Debug.Log("건물 지을때의 이펙트 필요!!");
-#endif
-        while (time <= buildTime)
+
+        if (Level >= 1)
         {
-            time += Time.deltaTime;
-            yield return null;
+            BuildingLevel[Level - 1].SetActive(false);
         }
-#if UNITY_EDITOR
-        Debug.Log("건물 공사 완료시 이펙트 필요!!");
-#endif
-        yield return null;
+        effect.gameObject.SetActive(true);
+        effect.PlayBuildingEffect(buildTime);
+
+        while (!effect.isBuildProgressEnd) { yield return null; }
+
         Level++;
+        yield return null;
         ChangeBuildingImage();
+        yield return null;
         resourceCreate = StartCoroutine(ResourceCreate());
     }
 
@@ -51,6 +55,7 @@ public class WindMill : Structure
         state = State.Product;
         isProduction = true;
         float time = 0.0f;
+
         while (isProduction)
         {
             time += Time.deltaTime;
@@ -80,7 +85,7 @@ public class WindMill : Structure
 
     private int CreateResource()
     {
-        switch(Level)
+        switch (Level)
         {
             case 1: return 1;
             case 2: return 2;
@@ -91,22 +96,8 @@ public class WindMill : Structure
 
     private void ChangeBuildingImage()
     {
-        switch (Level)
-        {
-            case 1:
-                BuildingLevel[0].SetActive(true);
-                break;
-            case 2:
-                BuildingLevel[0].SetActive(false);
-                BuildingLevel[1].SetActive(true);
-                break;
-            case 3:
-                BuildingLevel[1].SetActive(false);
-                BuildingLevel[2].SetActive(true);
-                break;
-            default:
-                break;
-        }
+        //BuildingLevel[Level - 2].SetActive(false);
+        BuildingLevel[Level - 1].SetActive(true);
     }
 
     private void StopResourceCreate()
@@ -118,7 +109,7 @@ public class WindMill : Structure
         }
     }
 
-    protected override int HpChange(float damage)
+    public override int HpChange(float damage)
     {
         return base.HpChange(damage);
     }

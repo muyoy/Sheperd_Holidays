@@ -11,23 +11,26 @@ public class BuildingEffect : MonoBehaviour
     public Animator hammer;
 
     private float buildTime = 0.0f;
-    private bool isBuildProgressEnd = false;
+    public bool isBuildProgressEnd = false;
 
     private void Start()
     {
-        PlayBuildingEffect(5.0f);
+        //PlayBuildingEffect(5.0f);
     }
 
-    void PlayBuildingEffect(float _buildTime)
+    public void PlayBuildingEffect(float _buildTime)
     {
         buildTime = _buildTime;
-
+        isBuildProgressEnd = false;
         StartCoroutine(BuildProgress());
     }
 
     IEnumerator BuildProgress()
     {
-        yield return new WaitForSeconds(1.0f);
+        gameObject.SetActive(true);
+        progress.transform.parent.gameObject.SetActive(true);
+        cautionImage.gameObject.SetActive(true);
+        hammer.gameObject.SetActive(true);
         baseImage.Play("BuildingBaseImage");
         cautionImage.Play("BuildingCautionImage");
         hammer.Play("BuildingHammerImage");
@@ -42,17 +45,17 @@ public class BuildingEffect : MonoBehaviour
             progress.size = Vector2.Lerp(progressSizeZero, progressSize, time / buildTime);
             yield return null;
         }
-        isBuildProgressEnd = true;
 
         progress.transform.parent.gameObject.SetActive(false);
         cautionImage.gameObject.SetActive(false);
         hammer.gameObject.SetActive(false);
-        yield return null;
         effect.Play("BuildingEffect");
+        yield return null;
+        isBuildProgressEnd = true;
     }
 
     public void EffectEndEvent()
     {
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -29,7 +29,7 @@ public class Structure : MonoBehaviour
 
     protected virtual void BuildingFunc(){ /* TODO : 건물 각각의 기능 */ }
     protected virtual void BuildingDestroy(){ /* 건물 파괴 기능 생길 시 */ } 
-    protected virtual int HpChange(float damage){ return HP; }
+    public virtual int HpChange(float damage){ return HP; }
 
     public virtual void Init()
     {
