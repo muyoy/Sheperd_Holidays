@@ -1,0 +1,8 @@
+Name,HP,ConstructionTime,Cost,RequriedStructure,ConstructionSpace,UpgradeCost,DestructionCost
+Nexus,500,0,0,Null,5,0,0
+House,200,10,50,Nexus,2,100,25
+Farm,200,20,100,Nexus,2,150,50
+Wall,1000,10,100,Nexus,1,0,50
+Barrack,150,20,150,Nexus,3,150,75
+RevolutionCenter,150,30,150,Barrack,2,0,75
+TreatmentCenter,150,30,300,Barrack,2,0,150
