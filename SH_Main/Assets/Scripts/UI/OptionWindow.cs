@@ -57,18 +57,4 @@ public class OptionWindow : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void GameStartButton()
-    {
-        //TODO : SceneManager.LoadScene();
-    }
-
-    public void TutorialButton()
-    {
-
-    }
-
-    public void QuitButton()
-    {
-        Application.Quit();
-    }
 }
