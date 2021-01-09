@@ -1,7 +1,7 @@
 ﻿//************************************************************
 //
 //  EDITOR : KIM JIHUN
-//  LAST UPDATE : 2021.1.6
+//  LAST UPDATE : 2021.1.8
 //  Script Purpose :  Fundamental Script of All Barracks
 //  하단 인터페이스에서 유닛 생성 버튼을 누르면 유닛 생산 대기열을 나타나게 하고 시간을 표시, 시간이 다 되면 유닛 생성
 //
@@ -32,25 +32,27 @@ public class Barrack : Structure
     }
 
     public List<UnitInfo> UnitList = new List<UnitInfo>();  // 생산 가능한 유닛들의 리스트
-    public GameObject UIManager;
     public GameObject[] UnitQueue;
-    private UIManager UI;
+    public UIManager UI;
+    public BattleManager Battle;
     public GameObject[] GenUnitImg;
     public Queue<GenUnitInfo> GenUnitQueue = new Queue<GenUnitInfo>();
-    private float timer;
+    private GameObject timerObject;
+    public float timer;
     private bool IsGenerating = false; // 지금 유닛을 생산하고 있는가?
-    private bool isActive = true; // 지금 Barrack을 클릭한 상태인가?
 
     #region Coroutines
     public Coroutine UnitProductionCoroutine = null;
+    private Coroutine ClockCoroutine = null;
     #endregion Coroutines
 
 
     private void Awake()
     {
-        UIManager = GameObject.Find("UIManager");
-        UI = UIManager.GetComponent<UIManager>();
-
+        UI = GameObject.Find("UIManager").GetComponent<UIManager>();
+        Battle = GameObject.Find("BattleManager").GetComponent<BattleManager>();
+        timerObject = transform.Find("Canvas").Find("LeftTime").gameObject;
+        
         GenUnitImg = UI.UnitRepIcon;
         InitUnitQueue();
     }
@@ -62,15 +64,24 @@ public class Barrack : Structure
         {
             GenUnitImg[i].GetComponent<UnitGenerate>().TargetBarrack(gameObject);
         }
+        timerObject.SetActive(false);
+        Debug.Log(timerObject.activeInHierarchy);
+    }
 
+    private void LateUpdate()
+    {
+        timerObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-0.85f,1.8f,0));
     }
 
     private void InitUnitQueue()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            UnitQueue[i] = transform.GetChild(i).gameObject;
-            UnitQueue[i].SetActive(false);
+            if (transform.GetChild(i).name.Contains("Queue"))
+            {
+                UnitQueue[i] = transform.GetChild(i).gameObject;
+                UnitQueue[i].SetActive(false);
+            }
         }
     }
 
@@ -78,31 +89,28 @@ public class Barrack : Structure
     public IEnumerator UnitProduction() // 유닛 생산시간 관리
     {
         DBStruct.SheepData GeneratingUnit;
+
         while (GenUnitQueue.Count > 0)
         {
-#if UNITY_EDITOR
-            Debug.Log("GenUnitQueue : " + GenUnitQueue.Count);
-            Debug.Log("UnitProduction : " + UnitProductionCoroutine);
-#endif
+            timerObject.SetActive(true);
             GeneratingUnit = GenUnitQueue.Peek().sheepData;
             IsGenerating = true;
-            StartCoroutine(Clock());
-
-            // Clock 스타트?
-
-            while (timer < GeneratingUnit.waitingTime) {
-#if UNITY_EDITOR
-                Debug.Log("timer : " + timer);
-                Debug.Log("Target Time : " + GeneratingUnit.waitingTime);
-#endif 
-                yield return null; 
+            if(ClockCoroutine == null)
+            {
+                ClockCoroutine = StartCoroutine(Clock());
             }
+            
+
+            while (timer < GeneratingUnit.waitingTime) { // 타이머 다 돌때까지 무한대기
+                timerObject.GetComponent<Text>().text = (GeneratingUnit.waitingTime -timer).ToString();
+                yield return null;
+            }
+
             if (timer >= GeneratingUnit.waitingTime)
             {
-#if UNITY_EDITOR
-                Debug.Log("if 문 실행");
-#endif 
-                StopCoroutine(Clock());
+                timerObject.SetActive(false);
+                StopCoroutine(ClockCoroutine);
+                ClockCoroutine = null;
                 InstantiateUnit(GeneratingUnit);
                 for (int i = 0; i < GenUnitQueue.Count; i++)
                 {
@@ -115,12 +123,16 @@ public class Barrack : Structure
                         UnitQueue[i].SetActive(false);
                     }
                 }
+
+                GenUnitQueue.Dequeue();
             }
 
             if(GenUnitQueue.Count <= 0)
             {
+                Coroutine temp = UnitProductionCoroutine;
                 UnitProductionCoroutine = null;
-                StopCoroutine(UnitProduction());
+                StopCoroutine(temp);
+                yield break;
             }
             yield return null;
         }
@@ -140,6 +152,27 @@ public class Barrack : Structure
 
     private void InstantiateUnit(DBStruct.SheepData sheep)
     {
+        int sheepIndex = 1;
+        string sheepName =null;
+        switch (sheep.name)
+        {
+            case "Unit_SheepSword":
+                sheepIndex = 0;
+                sheepName = sheep.name;
+                break;
+            case "Unit_SheepJavelin":
+                sheepIndex = 1;
+                sheepName = sheep.name;
+                break;
+            case "Unit_SheepBow":
+                sheepIndex = 2;
+                sheepName = sheep.name;
+                break;
+        }
 
+        GameObject sheepObject = Instantiate(Resources.Load("Unit/"+sheepName, typeof(GameObject)) as GameObject, gameObject.transform.position, Quaternion.identity);
+        sheepObject.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[sheepIndex]);
+        StartCoroutine(sheepObject.GetComponent<Unit>().StartOn());
+        Battle.AddUnit(sheepObject.GetComponent<Unit>());
     }
 }

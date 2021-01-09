@@ -49,11 +49,11 @@ public class UnitGenerate : MonoBehaviour
                         break;
                     case UnitType.Bow:
                         tempSprite = Resources.Load("Unit/BarrackUnit/Bow_Icon", typeof(Sprite)) as Sprite;
-                        barrackFunc.GenUnitQueue.Enqueue(new GenUnitInfo(DBManager.instance.SheepDatas[2], tempSprite));
+                        barrackFunc.GenUnitQueue.Enqueue(new GenUnitInfo(DBManager.instance.SheepDatas[3], tempSprite));
                         break;
                     case UnitType.Javelin:
                         tempSprite = Resources.Load("Unit/BarrackUnit/Spear_Icon", typeof(Sprite)) as Sprite;
-                        barrackFunc.GenUnitQueue.Enqueue(new GenUnitInfo(DBManager.instance.SheepDatas[3], tempSprite));
+                        barrackFunc.GenUnitQueue.Enqueue(new GenUnitInfo(DBManager.instance.SheepDatas[2], tempSprite));
                         break;
                 }
 
