@@ -121,7 +121,7 @@ public class Barrack : Structure
                     else
                     {
                         UnitQueue[i].SetActive(false);
-                    }
+                    } 
                 }
 
                 GenUnitQueue.Dequeue();
