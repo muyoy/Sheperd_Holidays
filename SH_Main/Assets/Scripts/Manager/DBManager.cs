@@ -24,6 +24,8 @@ public class DBStruct
                 this.num[i] = int.Parse(data[count++]);
             }
         }
+
+
     }
 
     [Serializable]
@@ -80,6 +82,31 @@ public class DBStruct
             this.moveSpeed = float.Parse(data[count++]);
         }
     }
+
+    public class StructureData
+    {
+        public string name;
+        public float hp;
+        public float constructTime;
+        public int cost;
+        public string requireStruct;
+        public int space;
+        public int upgradeCost;
+        public int destructCost;
+
+        public StructureData(string[] data)
+        {
+            int count = 0;
+            name = data[count++];
+            hp = float.Parse(data[count++]);
+            constructTime = float.Parse(data[count++]);
+            cost = int.Parse(data[count++]);
+            requireStruct = data[count++];
+            space = int.Parse(data[count++]);
+            upgradeCost = int.Parse(data[count++]);
+            destructCost = int.Parse(data[count]);
+        }
+    }
 }
 
 public class DBManager : MonoBehaviour
@@ -88,9 +115,11 @@ public class DBManager : MonoBehaviour
     public List<DBStruct.WaveData> waveDatas = new List<DBStruct.WaveData>();
     public List<DBStruct.SheepData> SheepDatas = new List<DBStruct.SheepData>();
     public List<DBStruct.WolfData> WolfDatas = new List<DBStruct.WolfData>();
+    public List<DBStruct.StructureData> StructureDatas = new List<DBStruct.StructureData>();
     private const string wavePath = "/WaveDB.txt";
     private const string sheepUnitPath = "/SheepUnitDB.txt";
     private const string wolfUnitPath = "/WolfUnitDB.txt";
+    private const string structurePath = "/StructureDB.txt";
 
     private void Awake()
     {
@@ -109,6 +138,7 @@ public class DBManager : MonoBehaviour
     private void Start()
     {
         LoadSheepDB(sheepUnitPath);
+        LoadStructDB(structurePath);
     }
 
     private void LoadSheepDB(string path)
@@ -133,5 +163,15 @@ public class DBManager : MonoBehaviour
     {
         string[] waveDB = File.ReadAllLines(Application.streamingAssetsPath + wavePath);
         waveDatas.Add(new DBStruct.WaveData(waveDB[fileLine].Split(',')));
+    }
+
+    private void LoadStructDB(string path)
+    {
+        string[] structDB = File.ReadAllLines(Application.streamingAssetsPath + path);
+
+        for(int i = 1; i < structDB.Length; i++)
+        {
+            StructureDatas.Add(new DBStruct.StructureData(structDB[i].Split(',')));
+        }
     }
 }

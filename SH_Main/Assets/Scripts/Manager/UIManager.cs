@@ -69,10 +69,10 @@ public class UIManager : MonoBehaviour
         BuildingRepIcon = GameObject.FindGameObjectsWithTag("BuildingContent");
         frontContentSprite = frontContent.GetComponent<Image>();
         hiddenContentSprite = hiddenContent.GetComponent<Image>();
-        UnitQueueControl(false); // 유닛 생산 버튼 숨기기
+        UnitQueueControl(); // 유닛 생산 버튼 숨기기
     }
 
-    public void UnitQueueControl(bool isUnitActive)
+    public void UnitQueueControl()
     {
         if (isUnitActive)
         {
@@ -86,6 +86,8 @@ public class UIManager : MonoBehaviour
             {
                 BuildingRepIcon[i].SetActive(false);
             }
+
+            isUnitActive = false;
         }
         else
         {
@@ -100,6 +102,8 @@ public class UIManager : MonoBehaviour
             {
                 UnitRepIcon[i].SetActive(false);
             }
+
+            isUnitActive = true;
         }
     }
 
