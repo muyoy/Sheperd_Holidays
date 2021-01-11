@@ -16,7 +16,7 @@ public class BattleManager : MonoBehaviour
         {
             _isDay = value;
             if(environment!= null) environment.Chenge(_isDay);
-            if(gm.infoTopBar != null) gm.infoTopBar.DayUIChange(_isDay);
+            if(gm!= null) gm.DayUIChange(_isDay);
         }
     }
     public float Daytime;
@@ -26,16 +26,7 @@ public class BattleManager : MonoBehaviour
     public List<Unit> wolfs = new List<Unit>();
     public UIManager uiManager;
 
-    public int _currentWave = 1;
-    public int currentWave
-    {
-        get { return _currentWave; }
-        set
-        {
-            _currentWave = value;
-            if (gm.infoTopBar != null) gm.infoTopBar.ChangeWaveLabel(_currentWave);
-        }
-    }
+    public int currentWave = 1;
     private int curCount = 0, deadCount = 0;
     private Stack<GameObject> walls = new Stack<GameObject>();
     public Vector3[] rallyPoint = new Vector3[3];
