@@ -11,7 +11,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     public float sfxVolume;
     public float bgmVolume;
 
-    private void Awake()
+    protected override void Initializations()
     {
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.loop = false;
@@ -19,32 +19,31 @@ public class SoundManager : MonoSingleton<SoundManager>
         bgmSource.loop = true;
     }
 
+    public void BGMPlayerDB(int _index)
+    {
+        AudioClip BGM = Resources.Load<AudioClip>(DBManager.instance.BGM_SoundData[_index].path);
+        if (!bgmnum.Equals(_index))
+        {
+            bgmnum = _index;
+            BgmPlayer(BGM);
+        }
+    }
 
-    //public void BGMPlayerDB(int _index)
-    //{
-    //    AudioClip BGM = Resources.Load<AudioClip>(GameManager.Inst.LoadSoundQue(_index, true));
-    //    if (!bgmnum.Equals(_index))
-    //    {
-    //        bgmnum = _index;
-    //        BgmPlayer(BGM);
-    //    }
-    //}
+    public void EffectPlayerDB(int _index)
+    {
+        AudioClip Effect = Resources.Load<AudioClip>(DBManager.instance.SFX_SoundData[_index].path);
+        PlayEffectSound(this.gameObject, Effect);
+    }
 
-    //public void EffectPlayerDB(int _index)
-    //{
-    //    AudioClip Effect = Resources.Load<AudioClip>(GameManager.Inst.LoadSoundQue(_index, false));
-    //    PlayEffectSound(this.gameObject, Effect);
-    //}
-
-    ///// <summary>
-    ///// 새로운 버전 효과음플레이!
-    ///// </summary>
-    ///// <param name="_index"></param>
-    ///// <param name="obj"></param>
-    //public void EffectPlayerDB(int _index, GameObject obj)
-    //{
-    //    PlayEffectSound(obj, Resources.Load<AudioClip>(GameManager.Inst.LoadSoundQue(_index, false)));
-    //}
+    /// <summary>
+    /// 새로운 버전 효과음플레이!
+    /// </summary>
+    /// <param name="_index"></param>
+    /// <param name="obj"></param>
+    public void EffectPlayerDB(int _index, GameObject obj)
+    {
+        PlayEffectSound(obj, Resources.Load<AudioClip>(DBManager.instance.SFX_SoundData[_index].path));
+    }
 
     public void BgmPlayer(AudioClip _clip)
     {
@@ -72,6 +71,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     public void BgmVolume(float value)//슬라이더가 움직일 때마다 호출되어 사운드의 조절을 해준다.
     {
         bgmVolume = value;
+        bgmSource.volume = bgmVolume;
     }
     public void SfxVolume(float value)//슬라이더가 움직일 때마다 호출되어 사운드의 조절을 해준다.
     {

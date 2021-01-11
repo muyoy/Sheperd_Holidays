@@ -33,7 +33,7 @@ public class TitleManager : MonoBehaviour
         buttons.gameObject.SetActive(false);
 
         StartCoroutine(LogoRepresentation(1.0f, 1.0f));
-
+        SoundManager.Inst.BGMPlayerDB(0);
         optionWindow.gameObject.SetActive(false);
         howtoPlayWindow.gameObject.SetActive(false);
     }
