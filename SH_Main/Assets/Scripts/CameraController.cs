@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
         screenHeight = Screen.height;
 
         //TODO: 잠시 주석 (다시 활성화 해야함!)
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
     }
 
     /// <summary>

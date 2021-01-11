@@ -60,7 +60,6 @@ public class BattleManager : MonoBehaviour
     }
     private void Start()
     {
-        SoundManager.Inst.BGMPlayerDB(1);
         wolf_way = Vector2.left;
         sheep_way = Vector2.right;
 
