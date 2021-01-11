@@ -16,7 +16,7 @@ public class Environment : MonoBehaviour
 {
     private BattleManager battleManager;
     private SkyRotation sky;
-    private PlanetController planet;
+    public PlanetController planet;
 
 
     private SpriteRenderer mountian_renderer;
