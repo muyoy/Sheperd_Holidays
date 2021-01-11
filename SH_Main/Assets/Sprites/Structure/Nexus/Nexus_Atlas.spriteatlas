@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Nexus_Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 4f2d20a60bed6124eb347cb69ad0e327, type: 3}
+    totalSpriteSurfaceArea: 2708480
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 2363c0703ee2fd84a90455a91e4f3d5c, type: 3}
+  - {fileID: 21300000, guid: e5ba4841f28f5e74a824ad598624c20c, type: 3}
+  - {fileID: 21300000, guid: 8bb2f842467ae924fb6614dc6b4fa2e4, type: 3}
+  - {fileID: 21300000, guid: 4954e79331b3a0c4aa0b72fccaf511be, type: 3}
+  - {fileID: 21300000, guid: 8178c634cd28e804f8747bbffea9952f, type: 3}
+  - {fileID: 21300000, guid: 5af23d169e51fa745b37e2ce0837f92a, type: 3}
+  - {fileID: 21300000, guid: f46c06171b299f04aa7f932545010368, type: 3}
+  - {fileID: 21300000, guid: b7ddc74bd5f307048a8b4929971af45d, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Nexus_8
+  - Nexus_2
+  - Nexus_3
+  - Nexus_7
+  - Nexus_5
+  - Nexus_1
+  - Nexus_4
+  - Nexus_6
+  m_Tag: Nexus_Atlas
+  m_IsVariant: 0

@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 8643319284516648588}
   - component: {fileID: 300860129300613807}
   m_Layer: 0
-  m_Name: Barrack
+  m_Name: House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,7 +417,7 @@ SpriteRenderer:
   m_SortingLayerID: 1494072969
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 95fc3622ad5213747948f47868411c5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6efc0f8303e17154391eedfd9f3400f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -453,11 +453,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f33cc28761e014ebb1ea3454c03ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 50
   buildTime: 0
-  buildingSpace: 2
-  dayImage: {fileID: 21300000, guid: 95fc3622ad5213747948f47868411c5a, type: 3}
-  nightImage: {fileID: 21300000, guid: 95fc3622ad5213747948f47868411c5a, type: 3}
+  buildingSpace: 1
+  dayImage: {fileID: 21300000, guid: 6efc0f8303e17154391eedfd9f3400f6, type: 3}
+  nightImage: {fileID: 21300000, guid: 6c4c97d6aaa2a2248bca298536616985, type: 3}
   UnitQueue:
   - {fileID: 0}
   - {fileID: 0}
