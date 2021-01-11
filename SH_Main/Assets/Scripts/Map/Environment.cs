@@ -86,7 +86,7 @@ public class Environment : MonoBehaviour
 
         //산 변경
         mountian_renderer.sprite = nightMountainImage;
-        //TODO: 건물 변경
+        //건물 변경
         ChnageBuilding();
     }
 
