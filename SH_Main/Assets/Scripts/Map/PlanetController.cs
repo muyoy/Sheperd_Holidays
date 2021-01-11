@@ -1,9 +1,9 @@
 ﻿// ==============================================================
-// 궤도에 맞게 이동 (z축 고정)
+// 행성 관리 (해와 달)
 //
 // AUTHOR: Yang SeEun
 // CREATED: 2021-01-05
-// UPDATED: 2021-01-05
+// UPDATED: 2021-01-11
 // ==============================================================
 
 
@@ -12,20 +12,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbitMovement : MonoBehaviour
+public class PlanetController : MonoBehaviour
 {
     [SerializeField] private float time = 0.0f;
     public float angle = 0.0f;
     public float radius = 10.0f;
-
-
     public Transform center;
+
+    [Space(5)]
+    public Sprite[] moonSprite;
+    public Sprite sunSprite;
+    private SpriteRenderer renderer;
+
 
     private void Awake()
     {
         center = transform.parent.transform.Find("CenterPosition").transform;
+        renderer = GetComponent<SpriteRenderer>();
     }
 
+    public void ChangedInTime(bool isMorning, int _dayTime)
+    {
+        if (isMorning)
+        {
+            renderer.sprite = sunSprite;
+        }
+        else
+        {
+            renderer.sprite = moonSprite[_dayTime / 5];
+        }
+    }
+
+    #region OrbitMovement (Z축 고정)
 
     public IEnumerator MoveEllipse(float fromAngle, float toAngle, float duration)
     {
@@ -37,7 +55,7 @@ public class OrbitMovement : MonoBehaviour
             angle = fromAngle + time * offset;
             Vector3 targetPos = CalcEllipticalOrbit(angle);
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, time* offset);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, time * offset);
 
             yield return null;
         }
@@ -101,8 +119,6 @@ public class OrbitMovement : MonoBehaviour
 
 
 
-
-
     /// <summary>
     /// 타원 궤도를 계산한다.  (x축이 긴 타원모양)
     /// </summary>
@@ -110,7 +126,7 @@ public class OrbitMovement : MonoBehaviour
     /// <returns></returns>
     private Vector3 CalcEllipticalOrbit(float _theta)
     {
-       return new Vector3((center.position.x + Mathf.Sin(_theta * Mathf.Deg2Rad) * radius),  (center.position.y + Mathf.Cos(_theta * Mathf.Deg2Rad) * radius * 0.5f) ,  center.position.z);
+        return new Vector3((center.position.x + Mathf.Sin(_theta * Mathf.Deg2Rad) * radius), (center.position.y + Mathf.Cos(_theta * Mathf.Deg2Rad) * radius * 0.5f), center.position.z);
     }
 
     /// <summary>
@@ -122,4 +138,5 @@ public class OrbitMovement : MonoBehaviour
     {
         return new Vector3((center.position.x + Mathf.Sin(_theta * Mathf.Deg2Rad) * radius), (center.position.y + Mathf.Cos(_theta * Mathf.Deg2Rad) * radius), center.position.z);
     }
+    #endregion
 }

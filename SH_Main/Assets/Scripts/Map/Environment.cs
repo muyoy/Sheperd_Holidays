@@ -16,7 +16,7 @@ public class Environment : MonoBehaviour
 {
     private BattleManager battleManager;
     private SkyRotation sky;
-    private OrbitMovement sunMoon;
+    private PlanetController planet;
 
 
     private SpriteRenderer mountian_renderer;
@@ -27,26 +27,27 @@ public class Environment : MonoBehaviour
 
     private void Awake()
     {
-        if(battleManager == null) battleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
+        if (battleManager == null) battleManager = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
         sky = Camera.main.transform.Find("Sky").GetComponent<SkyRotation>();
-        sunMoon = Camera.main.transform.Find("SunMoon").GetComponent<OrbitMovement>();
+        planet = Camera.main.transform.Find("Planet").GetComponent<PlanetController>();
 
         mountian_renderer = transform.Find("Background").GetComponent<SpriteRenderer>();
         dayMountainImage = Resources.Load<Sprite>("Sprite/Environment/Mountian/Morning_background_mountain");
         nightMountainImage = Resources.Load<Sprite>("Sprite/Environment/Mountian/night_background_mountain");
     }
 
-    #region 임시Test
     private void Start()
     {
-        //Chenge(true);
+        //해 회전
+        StartCoroutine(planet.MoveEllipse(-90.0f, 90.0f, battleManager.Daytime));
     }
-    #endregion
 
 
     public void Chenge(bool isDay)
     {
-        if(isDay)
+        planet.ChangedInTime(isDay, battleManager.currentWave);
+
+        if (isDay)
         {
             StartCoroutine(ChangeToDaytime());
         }
@@ -61,30 +62,28 @@ public class Environment : MonoBehaviour
         //하늘 회전
         StartCoroutine(sky.Rotation(-180.0f, duration));
 
-        yield return new WaitForSeconds(duration*0.5f);
+        yield return new WaitForSeconds(duration * 0.5f);
 
         //산 변경
         mountian_renderer.sprite = dayMountainImage;
-        //TODO: 타일 변경
         //TODO: 건물 변경
 
 
-        //해와 달 회전
-        StartCoroutine(sunMoon.MoveEllipse(-90.0f,90.0f, battleManager.Daytime));
+        //해 회전
+        StartCoroutine(planet.MoveEllipse(-90.0f, 90.0f, battleManager.Daytime));
     }
 
     private IEnumerator ChangeToNighttime()
     {
         //하늘 회전
         StartCoroutine(sky.Rotation(0.0f, duration));
-        //해와 달 회전
-        StartCoroutine(sunMoon.MoveEllipse(-90.0f,90.0f, duration));
+        //달 회전
+        StartCoroutine(planet.MoveEllipse(-90.0f, 90.0f, duration));
 
-        yield return new WaitForSeconds(duration*0.5f);
+        yield return new WaitForSeconds(duration * 0.5f);
 
         //산 변경
         mountian_renderer.sprite = nightMountainImage;
-        //TODO: 타일 변경
         //TODO: 건물 변경
     }
 
