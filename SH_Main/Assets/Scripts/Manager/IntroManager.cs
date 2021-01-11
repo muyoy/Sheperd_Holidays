@@ -68,6 +68,7 @@ public class IntroManager : MonoBehaviour
         {
             scenetransition.LoadSceneName("test_Scene");
             scenetransition.gameObject.SetActive(true);
+            SoundManager.Inst.StopBgm();
         }
     }
 }

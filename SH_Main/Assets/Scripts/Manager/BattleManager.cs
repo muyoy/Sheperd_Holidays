@@ -51,6 +51,7 @@ public class BattleManager : MonoBehaviour
     }
     private void Start()
     {
+        SoundManager.Inst.BGMPlayerDB(1);
         wolf_way = Vector2.left;
         sheep_way = Vector2.right;
 
@@ -232,13 +233,24 @@ public class BattleManager : MonoBehaviour
     private IEnumerator Timer()
     {
         uiManager.GroundSet(isDay);
+        ChangeBGM(isDay);
         yield return new WaitForSeconds(5.0f);
         WaveSetting();
-        yield return new WaitForSeconds(Daytime);
+        yield return new WaitForSeconds(Daytime - 5.0f);
         isDay = false;
+        ChangeBGM(isDay);
         uiManager.GroundSet(isDay);
         StartCoroutine(Wave());
         yield return null;
+    }
+
+    private void ChangeBGM(bool _isday)
+    {
+        SoundManager.Inst.StopBgm();
+        if (_isday)
+            SoundManager.Inst.BGMPlayerDB(1);
+        else
+            SoundManager.Inst.BGMPlayerDB(2);
     }
 
     private void ReTargetSheep()
