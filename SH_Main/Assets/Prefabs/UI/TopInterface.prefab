@@ -562,7 +562,6 @@ GameObject:
   - component: {fileID: 4962751024122393751}
   - component: {fileID: 4962751024122393749}
   - component: {fileID: 4962751024122393750}
-  - component: {fileID: 7982474344504840231}
   m_Layer: 5
   m_Name: TopInterface
   m_TagString: Untagged
@@ -631,23 +630,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7982474344504840231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4962751024122393752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e883a7879ae004244b7e549028fd3cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wave_Label: {fileID: 732098548109993550}
-  sheep_Label: {fileID: 4962751023772637081}
-  money_text: {fileID: 4962751024018144885}
-  duration: 1
-  sunMoon: {fileID: 4962751023815983912}
 --- !u!1 &4962751024147940925
 GameObject:
   m_ObjectHideFlags: 0

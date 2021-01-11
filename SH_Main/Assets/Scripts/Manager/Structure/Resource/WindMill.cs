@@ -113,16 +113,8 @@ public class WindMill : Structure
     {
         return base.HpChange(damage);
     }
-
     protected override void BuildingFunc()
     {
         base.BuildingFunc();
-    }
-
-    public override void ChangeStructImage()
-    {
-        if (Level < 3) return;
-
-        BuildingLevel[Level - 1].GetComponent<SpriteRenderer>().sprite = BM.isDay ? dayImage : nightImage;
     }
 }

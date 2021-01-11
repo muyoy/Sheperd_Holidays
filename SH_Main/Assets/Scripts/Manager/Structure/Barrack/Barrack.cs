@@ -26,11 +26,15 @@ public struct UnitInfo  // 병영에서 생산되는 유닛의 기본 정보
 
 public class Barrack : Structure
 {
+    public override void Init()
+    {
+        base.Init();
+    }
 
     public List<UnitInfo> UnitList = new List<UnitInfo>();  // 생산 가능한 유닛들의 리스트
     public GameObject[] UnitQueue;
     public UIManager UI;
-    private GameManager GM;
+    public BattleManager Battle;
     public GameObject[] GenUnitImg;
     public Queue<GenUnitInfo> GenUnitQueue = new Queue<GenUnitInfo>();
     private GameObject timerObject;
@@ -42,33 +46,27 @@ public class Barrack : Structure
     private Coroutine ClockCoroutine = null;
     #endregion Coroutines
 
-    public override void Init()
-    {
-        base.Init();
-    }
 
     private void Awake()
     {
         UI = GameObject.Find("UIManager").GetComponent<UIManager>();
-        GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        Battle = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         timerObject = transform.Find("Canvas").Find("LeftTime").gameObject;
         
         GenUnitImg = UI.UnitRepIcon;
         InitUnitQueue();
     }
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-
+        Init();
         for (int i = 0; i < GenUnitImg.Length; i++)
         {
             GenUnitImg[i].GetComponent<UnitGenerate>().TargetBarrack(gameObject);
         }
         timerObject.SetActive(false);
+        Debug.Log(timerObject.activeInHierarchy);
     }
-        
-       
 
     private void LateUpdate()
     {
@@ -108,12 +106,6 @@ public class Barrack : Structure
                 yield return null;
             }
 
-            while (GM.population >= GM.maxPopulation)  // 인구수가 꽉차면 대기
-            {
-                StopCoroutine(ClockCoroutine);
-                yield return null;
-            }
-
             if (timer >= GeneratingUnit.waitingTime)
             {
                 timerObject.SetActive(false);
@@ -132,7 +124,6 @@ public class Barrack : Structure
                     } 
                 }
 
-                GM.population++; // 인구수 증가
                 GenUnitQueue.Dequeue();
             }
 
@@ -182,6 +173,6 @@ public class Barrack : Structure
         GameObject sheepObject = Instantiate(Resources.Load("Unit/"+sheepName, typeof(GameObject)) as GameObject, gameObject.transform.position, Quaternion.identity);
         sheepObject.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[sheepIndex]);
         StartCoroutine(sheepObject.GetComponent<Unit>().StartOn());
-        BM.AddUnit(sheepObject.GetComponent<Unit>());
+        Battle.AddUnit(sheepObject.GetComponent<Unit>());
     }
 }

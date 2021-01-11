@@ -276,11 +276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3166ee2e63db843a38475bf0dd2f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureBody: {fileID: 21300000, guid: e053debb79781e446acfcb54181705a0, type: 3}
   cost: 0
   buildTime: 3
   buildingSpace: 2
-  dayImage: {fileID: 21300000, guid: e053debb79781e446acfcb54181705a0, type: 3}
-  nightImage: {fileID: 21300000, guid: 90904bb3d7623e6469197d8889586ab1, type: 3}
   Level: 0
   state: 0
   resource: 0
