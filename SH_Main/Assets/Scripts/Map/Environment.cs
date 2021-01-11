@@ -4,7 +4,7 @@
 //
 // AUTHOR: Yang SeEun
 // CREATED: 2020-12-29
-// UPDATED: 2021-01-05
+// UPDATED: 2021-01-12
 // ==============================================================
 
 
@@ -15,15 +15,16 @@ using UnityEngine;
 public class Environment : MonoBehaviour
 {
     private BattleManager battleManager;
+
     private SkyRotation sky;
     public PlanetController planet;
-
+    public float duration = 3.0f;
 
     private SpriteRenderer mountian_renderer;
     private Sprite dayMountainImage;
     private Sprite nightMountainImage;
 
-    public float duration = 3.0f;
+    private GameObject tileParentObj = null;
 
     private void Awake()
     {
@@ -34,6 +35,8 @@ public class Environment : MonoBehaviour
         mountian_renderer = transform.Find("Background").GetComponent<SpriteRenderer>();
         dayMountainImage = Resources.Load<Sprite>("Sprite/Environment/Mountian/Morning_background_mountain");
         nightMountainImage = Resources.Load<Sprite>("Sprite/Environment/Mountian/night_background_mountain");
+
+        tileParentObj = GameObject.Find("TileMap").transform.Find("Tile").gameObject;
     }
 
     private void Start()
@@ -66,8 +69,9 @@ public class Environment : MonoBehaviour
 
         //산 변경
         mountian_renderer.sprite = dayMountainImage;
-        //TODO: 건물 변경
-        //
+        //건물 변경
+        ChnageBuilding();
+
 
     }
 
@@ -83,7 +87,7 @@ public class Environment : MonoBehaviour
         //산 변경
         mountian_renderer.sprite = nightMountainImage;
         //TODO: 건물 변경
-        //
+        ChnageBuilding();
     }
 
     #region 행성 관리
@@ -116,4 +120,20 @@ public class Environment : MonoBehaviour
         yield return null;
     }
     #endregion
+
+    private void ChnageBuilding()
+    {
+        Structure[] buildings = LoadStructure();
+        for (int i=0; i< buildings.Length;i++)
+        {
+            //TODO : 주석 풀기
+            //buildings[i].ChangeStructImage();
+            Debug.Log(buildings[i].name);
+        }
+    }
+
+    private Structure[] LoadStructure()
+    {
+        return tileParentObj.transform.GetComponentsInChildren<Structure>();
+    }
 }
