@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6501190602215585118}
   m_Layer: 0
   m_Name: BattleManager
-  m_TagString: Untagged
+  m_TagString: BattleManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,17 +43,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c3323530acd1745a87b5ba4006561a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDay: 1
-  isClear: 1
-  Daytime: 0
-  db: {fileID: 0}
+  _isDay: 1
+  Daytime: 15
   farm: {fileID: 0}
   Forest: {fileID: 0}
   sheeps: []
   wolfs: []
-  wolfUnit: []
+  uiManager: {fileID: 0}
+  currentWave: 1
+  rallyPoint:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  targetwolf: {fileID: 0}
+  targetsheep: {fileID: 0}
+  wolfUnit:
+  - {fileID: 6390159703529462295, guid: 9823cad66e785e044af0673ddfea5cec, type: 3}
+  - {fileID: 7898984420734996570, guid: da7a01a0522d9264c8501ae8e40d282f, type: 3}
+  - {fileID: 2525254289209200490, guid: 3e7c8b27582344c44950352048d2c182, type: 3}
+  - {fileID: 2087805458909608264, guid: 1a087191d5e6cc546899af378b5bfe70, type: 3}
+  - {fileID: 6977123875011241340, guid: a7a219f61f0d3634d86f29452475cd93, type: 3}
+  - {fileID: 9159595290216453300, guid: 552987c7120d23d42b6b1870b1891aea, type: 3}
   wall: {fileID: 0}
-  tile: {fileID: 0}
   spawnSheep: {fileID: 0}
-  spawnWolf: {fileID: 0}
-  sheepUnit: []
+  sheepUnit:
+  - {fileID: 2815363707382097038, guid: 655789721195b5045bdf0c91c3e55684, type: 3}
+  - {fileID: 650536039374690560, guid: 933932f49c73a9840b00419c061d1c71, type: 3}
+  - {fileID: 1624542652053941028, guid: b8218352a378df141a3e9da450e1ffb3, type: 3}
+  - {fileID: 535516698592024314, guid: f83a67eb01fb21e438b702e9fc304bf7, type: 3}
+  - {fileID: 3856167485794450705, guid: 036932950dfb331419fd6883747f9f7c, type: 3}
