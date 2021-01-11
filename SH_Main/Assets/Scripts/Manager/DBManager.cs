@@ -72,7 +72,7 @@ public class DBStruct
         public WolfData(string[] data)
         {
             int count = 0;
-            this.num =int.Parse(data[count++]);
+            this.num = int.Parse(data[count++]);
             this.name = data[count++];
             this.atkRange = float.Parse(data[count++]);
             this.type = (AttackType)Enum.Parse(typeof(AttackType), data[count++]);
@@ -107,6 +107,19 @@ public class DBStruct
             destructCost = int.Parse(data[count]);
         }
     }
+
+    [Serializable]
+    public class SoundData
+    {
+        public int num;
+        public string path;
+        public SoundData(string[] data)
+        {
+            int count = 0;
+            num = int.Parse(data[count++]);
+            path = data[count++];
+        }
+    }
 }
 
 public class DBManager : MonoBehaviour
@@ -116,10 +129,14 @@ public class DBManager : MonoBehaviour
     public List<DBStruct.SheepData> SheepDatas = new List<DBStruct.SheepData>();
     public List<DBStruct.WolfData> WolfDatas = new List<DBStruct.WolfData>();
     public List<DBStruct.StructureData> StructureDatas = new List<DBStruct.StructureData>();
+    public List<DBStruct.SoundData> BGM_SoundData = new List<DBStruct.SoundData>();
+    public List<DBStruct.SoundData> SFX_SoundData = new List<DBStruct.SoundData>();
     private const string wavePath = "/WaveDB.txt";
     private const string sheepUnitPath = "/SheepUnitDB.txt";
     private const string wolfUnitPath = "/WolfUnitDB.txt";
     private const string structurePath = "/StructureDB.txt";
+    private const string bgmPath = "/BGM_DB.txt";
+    private const string sfxPath = "/SFX_DB.txt";
 
     private void Awake()
     {
@@ -133,12 +150,9 @@ public class DBManager : MonoBehaviour
             Destroy(gameObject);
         }
         LoadWolfDB(wolfUnitPath);
-    }
-
-    private void Start()
-    {
         LoadSheepDB(sheepUnitPath);
         LoadStructDB(structurePath);
+        LoadSoundDB();
     }
 
     private void LoadSheepDB(string path)
@@ -169,9 +183,24 @@ public class DBManager : MonoBehaviour
     {
         string[] structDB = File.ReadAllLines(Application.streamingAssetsPath + path);
 
-        for(int i = 1; i < structDB.Length; i++)
+        for (int i = 1; i < structDB.Length; i++)
         {
             StructureDatas.Add(new DBStruct.StructureData(structDB[i].Split(',')));
+        }
+    }
+
+    private void LoadSoundDB()
+    {
+        string[] bgmdata = File.ReadAllLines(Application.streamingAssetsPath + bgmPath);
+        string[] stxdata = File.ReadAllLines(Application.streamingAssetsPath + sfxPath);
+
+        for (int i = 1; i < bgmdata.Length; i++)
+        {
+            BGM_SoundData.Add(new DBStruct.SoundData(bgmdata[i].Split(',')));
+        }
+        for (int i = 1; i < stxdata.Length; i++)
+        {
+            SFX_SoundData.Add(new DBStruct.SoundData(stxdata[i].Split(',')));
         }
     }
 }
