@@ -45,8 +45,6 @@ public class Environment : MonoBehaviour
 
     public void Chenge(bool isDay)
     {
-        planet.ChangedInTime(isDay, battleManager.currentWave);
-
         if (isDay)
         {
             StartCoroutine(ChangeToDaytime());
@@ -57,31 +55,29 @@ public class Environment : MonoBehaviour
         }
     }
 
+
     private IEnumerator ChangeToDaytime()
     {
         //하늘 회전
         StartCoroutine(sky.Rotation(-180.0f, duration));
-        //달 회전
-        StartCoroutine(planet.MoveEllipse(-90.0f, 90.0f, duration));
-
+        //행성 
+        StartCoroutine(PlanetController_ToDay());
         yield return new WaitForSeconds(duration * 0.5f);
 
         //산 변경
         mountian_renderer.sprite = dayMountainImage;
         //TODO: 건물 변경
+        //
 
-
-        //해 회전
-        StartCoroutine(planet.MoveEllipse(-90.0f, 90.0f, battleManager.Daytime));
     }
+
 
     private IEnumerator ChangeToNighttime()
     {
         //하늘 회전
         StartCoroutine(sky.Rotation(0.0f, duration));
-        //달 회전
-        StartCoroutine(planet.MoveEllipse(-90.0f, -45.0f, 2.0f));
-
+        //행성 
+        StartCoroutine(PlanetController_ToNignt());
         yield return new WaitForSeconds(duration * 0.5f);
 
         //산 변경
@@ -90,4 +86,34 @@ public class Environment : MonoBehaviour
         //
     }
 
+    #region 행성 관리
+    /// <summary>
+    /// 아침으로 바뀌었을 때 행성 관리
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlanetController_ToDay()
+    {
+        //이미지 변경
+        planet.ChangedInTime(false, battleManager.currentWave);
+        //달 회전
+        yield return StartCoroutine(planet.MoveEllipse(-45.0f, 90.0f, duration));
+
+        //이미지 변경
+        planet.ChangedInTime(true, battleManager.currentWave);
+        //해 회전
+        StartCoroutine(planet.MoveEllipse(-90.0f, 90.0f, battleManager.Daytime));
+    }
+    /// <summary>
+    /// 밤으로 바뀌었을 때 행성 관리
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlanetController_ToNignt()
+    {
+        //이미지 변경
+        planet.ChangedInTime(false, battleManager.currentWave);
+        //달 회전
+        StartCoroutine(planet.MoveEllipse(-90.0f, -45.0f, 2.0f));
+        yield return null;
+    }
+    #endregion
 }
