@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     private float xMin = 8.96f;
     private float xMax = 47.0f;
 
-    public float speed = 2.0f;
+    public float speed = 3.0f;
 
     //마우스로 카메라 이동
     [SerializeField] private bool MovingFromMouse = true;       //마우스로 움직이고 있는지
@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
         screenHeight = Screen.height;
 
         //TODO: 잠시 주석 (다시 활성화 해야함!)
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     /// <summary>
@@ -103,6 +103,8 @@ public class CameraController : MonoBehaviour
             CursorMovement();
         }
     }
+
+
 
     /// <summary>
     /// 마우스 커서로 카메라 이동
