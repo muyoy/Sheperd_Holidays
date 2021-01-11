@@ -26,7 +26,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
                     m_Instance = GameObject.FindObjectOfType(typeof(T)) as T;
 
                     // Object not found, we create a temporary one
-                    if (m_Instance == null) 
+                    if (m_Instance == null)
                     {
                         Debug.LogWarning("No instance of " + typeof(T).ToString() + ", a temporary one is created.");
                         m_Instance = new GameObject("Singleton of " + typeof(T).ToString(), typeof(T)).GetComponent<T>();
@@ -61,28 +61,29 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
         {
             m_Instance = this as T;
             m_Instance.Initializations();
+            DontDestroyOnLoad(m_Instance);
         }
     }
 
-	private void OnDestroy()
-	{
-		Debug.LogWarning("Destory instance of " + typeof(T).ToString() + ".");
-		if(m_Instance != null)
-			m_Instance.Destroy();
-		m_Instance = null;
-	}
+    private void OnDestroy()
+    {
+        Debug.LogWarning("Destory instance of " + typeof(T).ToString() + ".");
+        if (m_Instance != null)
+            m_Instance.Destroy();
+        m_Instance = null;
+    }
 
     // This function is called when the instance is used the first time
     // Put all the initializations you need here, as you would do in Awake
     protected virtual void Initializations() { }
-	protected virtual void Destroy() { }
+    protected virtual void Destroy() { }
 
     // Make sure the instance isn't referenced anymore when the user quit, just in case.
     private void OnApplicationQuit()
     {
-	///	if (m_Instance != null)
-///			m_Instance.Destroy();
-  ///      m_Instance = null;
+        ///   if (m_Instance != null)
+        ///         m_Instance.Destroy();
+        ///      m_Instance = null;
         applicationIsQuitting = true;
     }
 }
