@@ -46,9 +46,11 @@ public class CameraController : MonoBehaviour
     {
         screenWidth = Screen.width;
         screenHeight = Screen.height;
-
+#if !UNITY_EDITOR
         //TODO: 잠시 주석 (다시 활성화 해야함!)
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
+#endif
+
     }
 
     /// <summary>
@@ -67,14 +69,14 @@ public class CameraController : MonoBehaviour
     private void FixedUpdate()
     {
 #if UNITY_EDITOR
-        #region 테스트용
+#region 테스트용
         if (Input.GetKeyDown(KeyCode.T) && Cor_autoMovement == null)
         {
             Cor_autoMovement = AutoMovement(startingPoint, 2.0f, 3.0f);
             StartCoroutine(Cor_autoMovement);
         }
 
-        #endregion
+#endregion
 #endif
         if (Input.GetKeyDown(KeyCode.Space) && Cor_autoMovement == null)
         {
