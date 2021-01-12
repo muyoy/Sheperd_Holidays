@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3700455448509618734}
   - component: {fileID: 8920866587673731718}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LV1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 2081625077483717029}
   - component: {fileID: 2081625077483717030}
   - component: {fileID: 4828254505315078316}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 2081625078032743071}
   - component: {fileID: 3465218227678555093}
   - component: {fileID: 1249380250600126482}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WindBody_Lv3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,10 +276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3166ee2e63db843a38475bf0dd2f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structureBody: {fileID: 21300000, guid: e053debb79781e446acfcb54181705a0, type: 3}
   cost: 0
   buildTime: 3
   buildingSpace: 2
+  dayImage: {fileID: 0}
+  nightImage: {fileID: 0}
+  disruptImage: {fileID: 0}
+  AnimationObject: {fileID: 0}
   Level: 0
   state: 0
   resource: 0
@@ -301,7 +304,7 @@ GameObject:
   - component: {fileID: 7912063739188696573}
   - component: {fileID: 8908396145039569444}
   - component: {fileID: 6386228500925574824}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4389158157475330078}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Struct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5731120332741711243}
   - component: {fileID: 4759571019979445756}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LV2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7144565334496796653}
   - component: {fileID: 1058216960727510161}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LV3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,7 +599,7 @@ GameObject:
   - component: {fileID: 192300396126750576}
   - component: {fileID: 2778553344819223872}
   - component: {fileID: 7502391854864823568}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,10 +748,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2376654062833011404, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792730526940945248, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226127523634094183, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501483503248261341, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962322622751043953, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8707726294436607082, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
         type: 3}
       propertyPath: m_Name
       value: BuildingEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707726294436607082, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127694897781323980, guid: 0e77fde89887d4f43811c1aeab8b4d6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e77fde89887d4f43811c1aeab8b4d6b, type: 3}
