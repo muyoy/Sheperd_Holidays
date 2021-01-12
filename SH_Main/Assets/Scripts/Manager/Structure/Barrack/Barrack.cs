@@ -57,8 +57,9 @@ public class Barrack : Structure
         InitUnitQueue();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Init();
         for (int i = 0; i < GenUnitImg.Length; i++)
         {

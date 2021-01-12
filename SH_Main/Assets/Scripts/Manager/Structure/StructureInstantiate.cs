@@ -19,8 +19,11 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     private Structure structureProp; // Structure 프리팹에 존재하는 Structure 프로퍼티
     private GameObject structure = null; // 건물 드래그시 임시로 나오는 건물 이미지
     public GameObject structurePrefab;
-    public Sprite prohibitStruct; // 건설 불가능시 이미지
-    public Sprite accessStruct;  // 건설 가능시 이미지
+
+    private int buildingSpace;
+    public Sprite[] prohibitStruct; // 건설 불가능시 이미지
+    public Sprite[] accessStruct;  // 건설 가능시 이미지
+
     private bool canStruct;
     private Vector3 offset; // 건물 칸수에 따른 설치 위치 조정
     private const float UNIT = 1.28f; // 건물 1칸의 거리
@@ -92,7 +95,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
     {
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         structure = Instantiate(structurePrefab, MousePosition, Quaternion.identity);
-
+        buildingSpace = structure.GetComponent<Structure>().buildingSpace;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -142,7 +145,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
             if (isEmpty.Contains(false))
             {
                 // 건물의 색상 변경
-                structure.GetComponent<SpriteRenderer>().sprite = prohibitStruct;
+                structure.GetComponent<SpriteRenderer>().sprite = prohibitStruct[buildingSpace - 1];
 
                 // 타일의 색상 변경
                 for (int i = tileName; i < tileName + structTile; i++)
@@ -167,7 +170,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
             else
             {
                 // 건물의 색상 변경
-                structure.GetComponent<SpriteRenderer>().sprite = accessStruct;
+                structure.GetComponent<SpriteRenderer>().sprite = accessStruct[buildingSpace - 1];
 
                 // 타일의 색상 변경
                 for (int i = tileName; i < tileName + structTile; i++)
@@ -183,7 +186,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
         }
         else
         {
-            structure.GetComponent<SpriteRenderer>().sprite = prohibitStruct;
+            structure.GetComponent<SpriteRenderer>().sprite = prohibitStruct[buildingSpace - 1];
             return false;
         }
     }
@@ -221,6 +224,7 @@ public class StructureInstantiate : MonoBehaviour, IPointerDownHandler, IDragHan
                 Ground[i].IsEmpty = false;
             }
 
+            structure.GetComponent<SpriteRenderer>().sprite = null;
             // 건물의 기능 본격적으로 시작
             structure.GetComponent<Structure>().Init();
         }
