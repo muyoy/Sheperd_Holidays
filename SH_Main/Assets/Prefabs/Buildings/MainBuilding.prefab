@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1365252650667020337}
   - component: {fileID: 1365252650667020348}
   - component: {fileID: 1365252650667020339}
+  - component: {fileID: 8180892195946711259}
   m_Layer: 10
   m_Name: MainBuilding
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1494072969
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 744b07b91d53c994997c47ff5aea6877, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4f286a42e43cab14ab1eece6e4d33c9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +101,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.4, y: 6.13}
+    oldSize: {x: 6.4, y: 5.29}
     newSize: {x: 6.4, y: 6.13}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -121,7 +122,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ea6f9d30950be489f240fbffa119cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structureBody: {fileID: 21300000, guid: 744b07b91d53c994997c47ff5aea6877, type: 3}
   cost: 0
   buildTime: 0
   buildingSpace: 0
+  dayImage: {fileID: 21300000, guid: 4f286a42e43cab14ab1eece6e4d33c9c, type: 3}
+  nightImage: {fileID: 21300000, guid: 4f286a42e43cab14ab1eece6e4d33c9c, type: 3}
+  disruptImage: {fileID: 0}
+--- !u!95 &8180892195946711259
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365252650667020336}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: efe5d01b79b27654987f64f0815b453b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
