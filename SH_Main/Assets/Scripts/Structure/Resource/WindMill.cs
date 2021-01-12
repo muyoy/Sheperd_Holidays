@@ -105,6 +105,7 @@ public class WindMill : Structure
 
     private void ChangeBuildingImage()
     {
+        ChangeStructImage();
         if (Level >= 2)
         {
             BuildingLevel[Level - 2].SetActive(false);
