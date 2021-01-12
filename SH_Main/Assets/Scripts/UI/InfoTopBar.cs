@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿// ==============================================================
+// 상단 정보 UI
+//
+// AUTHOR: Yang SeEun
+// CREATED: 2021-01-11
+// UPDATED: 2021-01-12
+// ==============================================================
+
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
