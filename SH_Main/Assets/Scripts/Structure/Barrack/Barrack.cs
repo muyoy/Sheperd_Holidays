@@ -31,6 +31,7 @@ public class Barrack : Structure
     public GameObject[] UnitQueue;
     public UIManager UI;
     private GameManager GM;
+    private BattleManager BM;
     public GameObject[] GenUnitImg;
     public Queue<GenUnitInfo> GenUnitQueue = new Queue<GenUnitInfo>();
     private GameObject timerObject;
@@ -51,6 +52,7 @@ public class Barrack : Structure
     {
         UI = GameObject.Find("UIManager").GetComponent<UIManager>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         timerObject = transform.Find("Canvas").Find("LeftTime").gameObject;
         
         GenUnitImg = UI.UnitRepIcon;
@@ -67,8 +69,7 @@ public class Barrack : Structure
         }
         timerObject.SetActive(false);
     }
-        
-       
+
 
     private void LateUpdate()
     {
@@ -161,27 +162,27 @@ public class Barrack : Structure
 
     private void InstantiateUnit(DBStruct.SheepData sheep)
     {
-        int sheepIndex = 1;
-        string sheepName =null;
+        int sheepIndex=0;
+
         switch (sheep.name)
         {
+            case "Unit_SheepAssasin":
+                sheepIndex = 3;
+                break;
             case "Unit_SheepSword":
                 sheepIndex = 0;
-                sheepName = sheep.name;
                 break;
             case "Unit_SheepJavelin":
-                sheepIndex = 1;
-                sheepName = sheep.name;
+                sheepIndex = 2;
                 break;
             case "Unit_SheepBow":
-                sheepIndex = 2;
-                sheepName = sheep.name;
+                sheepIndex = 1;
                 break;
-        }
+            case "Unit_SheepWizard":
+                sheepIndex = 4;
+                break;
 
-        GameObject sheepObject = Instantiate(Resources.Load("Unit/"+sheepName, typeof(GameObject)) as GameObject, gameObject.transform.position, Quaternion.identity);
-        sheepObject.GetComponent<Unit>().SetUnitData(DBManager.instance.SheepDatas[sheepIndex]);
-        StartCoroutine(sheepObject.GetComponent<Unit>().StartOn());
-        BM.AddUnit(sheepObject.GetComponent<Unit>());
+        }
+        BM.CreateUnit(sheepIndex).transform.position = transform.position;
     }
 }
