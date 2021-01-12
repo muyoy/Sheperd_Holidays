@@ -89,8 +89,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structurePrefab: {fileID: 2081625078032743070, guid: f3276f69ac8886e4cbe67ff3938b9967,
     type: 3}
-  prohibitStruct: {fileID: 21300000, guid: 9d0c9f5c766e8f746b30c5d3d14dad88, type: 3}
-  accessStruct: {fileID: 21300000, guid: e7870ce819d6d8440871f6da659cae55, type: 3}
+  prohibitStruct:
+  - {fileID: 21300000, guid: c1132e579e8f3b941a5aa339710cbf6c, type: 3}
+  - {fileID: 21300000, guid: e2e7940d32b83174c8d858f16b3901f3, type: 3}
+  - {fileID: 21300000, guid: 4736f3a3f136092439294317cd15c6f5, type: 3}
+  accessStruct:
+  - {fileID: 21300000, guid: 83cae7811c12f1f45a98cfc017c4ce44, type: 3}
+  - {fileID: 21300000, guid: 46e9b739551e5c54e9437129b747573d, type: 3}
+  - {fileID: 21300000, guid: 063c217cf0f96b945b74670155c31f68, type: 3}
   GroundMask: 0
   accessGround: {fileID: 21300000, guid: bd3052631a7211a43a88e0d6ec5198bb, type: 3}
   prohibitGround: {fileID: 21300000, guid: fd04c210665dfce4e88c436c49931033, type: 3}

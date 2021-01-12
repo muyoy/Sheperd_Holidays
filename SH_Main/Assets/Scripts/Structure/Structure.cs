@@ -16,7 +16,7 @@ public class Structure : MonoBehaviour
     protected BattleManager BM;
     protected virtual void Start()
     {
-        BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
+        BM = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
     }
 
     protected int hitPoints;
@@ -68,5 +68,18 @@ public class Structure : MonoBehaviour
     public virtual void Init()
     {
         ChangeStructImage();
+    }
+    public virtual void OnClickEvent()
+    {
+#if UNITY_EDITOR
+        Debug.Log("clickevent");
+#endif
+        //UI 처리
+        OnStructureUI();
+    }
+
+    protected virtual void OnStructureUI()
+    {
+
     }
 }

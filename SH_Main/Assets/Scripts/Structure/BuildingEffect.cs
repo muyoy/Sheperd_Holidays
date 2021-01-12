@@ -31,8 +31,8 @@ public class BuildingEffect : MonoBehaviour
         progress.transform.parent.gameObject.SetActive(true);
         cautionImage.gameObject.SetActive(true);
         hammer.gameObject.SetActive(true);
-        baseImage.Play("BuildingBaseImage");
-        cautionImage.Play("BuildingCautionImage");
+        //baseImage.Play("BuildingBaseImage");
+        //cautionImage.Play("BuildingCautionImage");
         hammer.Play("BuildingHammerImage");
 
         Vector2 progressSize = progress.size;

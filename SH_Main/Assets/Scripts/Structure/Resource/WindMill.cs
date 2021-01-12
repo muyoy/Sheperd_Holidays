@@ -19,11 +19,20 @@ public class WindMill : Structure
 
     public BuildingEffect effect;
 
+    protected override void Start()
+    {
+        base.Start();
+        effect = transform.Find("BuildingEffect").GetComponent<BuildingEffect>();
+        BuildingLevel[0].SetActive(true);
+        effect.gameObject.SetActive(false);
+    }
+
     public override void Init()
     {
         base.Init();
+        BuildingLevel[0].SetActive(false);
+        effect.gameObject.SetActive(true);
 
-        effect = transform.Find("BuildingEffect").GetComponent<BuildingEffect>();
         StartCoroutine(BuildStructure());
         Invoke("BuildButton", 5.0f);
         Invoke("BuildButton", 10.0f);
@@ -34,10 +43,10 @@ public class WindMill : Structure
         state = State.Build;
         StopResourceCreate();
 
-        if (Level >= 1)
-        {
-            BuildingLevel[Level - 1].SetActive(false);
-        }
+        //if (Level >= 1)
+        //{
+        //    BuildingLevel[Level - 1].SetActive(false);
+        //}
         effect.gameObject.SetActive(true);
         effect.PlayBuildingEffect(buildTime);
 
@@ -96,7 +105,11 @@ public class WindMill : Structure
 
     private void ChangeBuildingImage()
     {
-        //BuildingLevel[Level - 2].SetActive(false);
+        ChangeStructImage();
+        if (Level >= 2)
+        {
+            BuildingLevel[Level - 2].SetActive(false);
+        }
         BuildingLevel[Level - 1].SetActive(true);
     }
 
@@ -113,8 +126,28 @@ public class WindMill : Structure
     {
         return base.HpChange(damage);
     }
+
     protected override void BuildingFunc()
     {
         base.BuildingFunc();
+    }
+
+    public override void ChangeStructImage()
+    {
+        if (Level < 3) return;
+
+        BuildingLevel[Level - 1].GetComponent<SpriteRenderer>().sprite = BM.isDay ? dayImage : nightImage;
+    }
+
+    public override void OnClickEvent()
+    {
+        base.OnClickEvent();
+
+        //UI 처리
+    }
+
+    protected override void OnStructureUI()
+    {
+        base.OnStructureUI();
     }
 }

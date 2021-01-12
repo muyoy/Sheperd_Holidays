@@ -119,7 +119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1365252650667020336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89ea6f9d30950be489f240fbffa119cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fba4dfa4a7f0fd439914fece69bbf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
@@ -128,6 +128,9 @@ MonoBehaviour:
   dayImage: {fileID: 21300000, guid: 4f286a42e43cab14ab1eece6e4d33c9c, type: 3}
   nightImage: {fileID: 21300000, guid: 4f286a42e43cab14ab1eece6e4d33c9c, type: 3}
   disruptImage: {fileID: 0}
+  AnimationObject: {fileID: 1365252650667020336}
+  dayAnim: {fileID: 0}
+  nightAnim: {fileID: 0}
 --- !u!95 &8180892195946711259
 Animator:
   serializedVersion: 3
