@@ -167,16 +167,16 @@ public class Barrack : Structure
         switch (sheep.name)
         {
             case "Unit_SheepAssasin":
-                sheepIndex = 3;
+                sheepIndex = 0;
                 break;
             case "Unit_SheepSword":
-                sheepIndex = 0;
+                sheepIndex = 1;
                 break;
             case "Unit_SheepJavelin":
                 sheepIndex = 2;
                 break;
             case "Unit_SheepBow":
-                sheepIndex = 1;
+                sheepIndex = 3;
                 break;
             case "Unit_SheepWizard":
                 sheepIndex = 4;

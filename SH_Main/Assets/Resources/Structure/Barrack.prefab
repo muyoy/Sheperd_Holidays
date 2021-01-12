@@ -453,10 +453,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f33cc28761e014ebb1ea3454c03ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structureBody: {fileID: 21300000, guid: 95fc3622ad5213747948f47868411c5a, type: 3}
   cost: 0
   buildTime: 0
   buildingSpace: 2
+  dayImage: {fileID: 21300000, guid: 95fc3622ad5213747948f47868411c5a, type: 3}
+  nightImage: {fileID: 21300000, guid: 95fc3622ad5213747948f47868411c5a, type: 3}
+  disruptImage: {fileID: 0}
   UnitQueue:
   - {fileID: 0}
   - {fileID: 0}
@@ -464,7 +466,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   UI: {fileID: 0}
-  Battle: {fileID: 0}
   GenUnitImg: []
   timer: 0
 --- !u!1 &7166443056577398637
