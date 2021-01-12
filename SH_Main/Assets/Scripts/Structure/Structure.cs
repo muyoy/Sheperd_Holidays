@@ -37,6 +37,9 @@ public class Structure : MonoBehaviour
     public Sprite dayImage; // 낮에 나타나는 건물
     public Sprite nightImage; // 밤에 나타나는 건물
     public Sprite disruptImage; // 파괴 되었을때 나타나는 건물
+    public GameObject AnimationObject; // 애니메이션이 있는 건물
+    public Animation dayAnim;
+    public Animation nightAnim;
 
     protected virtual void BuildingFunc(){ /* TODO : 건물 각각의 기능 */ }
     protected virtual void BuildingDestroy(){ /* 건물 파괴 기능 생길 시 */ } 
@@ -44,12 +47,17 @@ public class Structure : MonoBehaviour
 
     public virtual void ChangeStructImage()
     {
+        Debug.Log("ChangeStrcutImage");
         if (BM.isDay)
         {
+            Debug.Log("day Image");
+            if (AnimationObject != null) { AnimationObject.GetComponent<Animator>().SetFloat("IsDay", 0); }
             gameObject.GetComponent<SpriteRenderer>().sprite = dayImage;
         }
         else
         {
+            Debug.Log("night Image");
+            if (AnimationObject != null) { AnimationObject.GetComponent<Animator>().SetFloat("IsDay", 1); }
             gameObject.GetComponent<SpriteRenderer>().sprite = nightImage;
         }
     }

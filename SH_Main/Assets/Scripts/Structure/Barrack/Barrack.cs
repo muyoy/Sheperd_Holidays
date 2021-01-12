@@ -31,10 +31,10 @@ public class Barrack : Structure
     public GameObject[] UnitQueue;
     public UIManager UI;
     private GameManager GM;
-    private BattleManager BM;
     public GameObject[] GenUnitImg;
     public Queue<GenUnitInfo> GenUnitQueue = new Queue<GenUnitInfo>();
     private GameObject timerObject;
+    public GameObject flag;
     public float timer;
     private bool IsGenerating = false; // 지금 유닛을 생산하고 있는가?
 
@@ -52,7 +52,6 @@ public class Barrack : Structure
     {
         UI = GameObject.Find("UIManager").GetComponent<UIManager>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
-        BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         timerObject = transform.Find("Canvas").Find("LeftTime").gameObject;
         
         GenUnitImg = UI.UnitRepIcon;
@@ -68,12 +67,13 @@ public class Barrack : Structure
             GenUnitImg[i].GetComponent<UnitGenerate>().TargetBarrack(gameObject);
         }
         timerObject.SetActive(false);
+        flag.SetActive(true);
     }
 
 
     private void LateUpdate()
     {
-        timerObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-0.85f,1.8f,0));
+        timerObject.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-2f,1.8f,0));
     }
 
     private void InitUnitQueue()
