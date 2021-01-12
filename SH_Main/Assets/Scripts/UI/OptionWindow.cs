@@ -54,7 +54,7 @@ public class OptionWindow : MonoBehaviour
 
     public void CloseButton()
     {
+        Time.timeScale = 1;
         gameObject.SetActive(false);
     }
-
 }

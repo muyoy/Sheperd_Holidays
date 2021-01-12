@@ -49,6 +49,8 @@ public class UIManager : MonoBehaviour
     #endregion Bottom Interface
 
     private UIManager uiManager;
+    public OptionWindow optionWindow;
+    public AsyncSceneLoad scenetransition;
 
     private void Awake()
     {
@@ -70,6 +72,10 @@ public class UIManager : MonoBehaviour
         frontContentSprite = frontContent.GetComponent<Image>();
         hiddenContentSprite = hiddenContent.GetComponent<Image>();
         UnitQueueControl(); // 유닛 생산 버튼 숨기기
+
+        if (optionWindow == null) optionWindow = transform.Find("Canvas/OptionWindow").GetComponent<OptionWindow>();
+        if (scenetransition == null) scenetransition = transform.Find("Canvas/Scenetransition").GetComponent<AsyncSceneLoad>();
+        optionWindow.gameObject.SetActive(false);
     }
 
     public void UnitQueueControl()
@@ -136,6 +142,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OptionButton()
+    {
+        optionWindow.OpenButton();
+        Time.timeScale = 0;
+    }
+    public void RestartButton()
+    {
+        Time.timeScale = 1;
+        DBManager.instance.waveDatas.Clear();
+        SoundManager.Inst.StopBgm();
+        scenetransition.LoadSceneName("Sheperd Holidays");
+        scenetransition.gameObject.SetActive(true);
+    }
+
+    public void ExitButton()
+    {
+        Time.timeScale = 1;
+        DBManager.instance.waveDatas.Clear();
+        SoundManager.Inst.StopBgm();
+        scenetransition.LoadSceneName("TitleScene");
+        scenetransition.gameObject.SetActive(true);
+    }
 
 
     public void StageInit()

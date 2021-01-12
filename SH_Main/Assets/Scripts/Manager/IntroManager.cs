@@ -66,8 +66,9 @@ public class IntroManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && pressplay.activeSelf)
         {
-            scenetransition.LoadSceneName("test_Scene");
+            scenetransition.LoadSceneName("Sheperd Holidays");
             scenetransition.gameObject.SetActive(true);
+            SoundManager.Inst.StopBgm();
         }
     }
 }
