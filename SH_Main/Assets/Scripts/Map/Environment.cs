@@ -126,9 +126,7 @@ public class Environment : MonoBehaviour
         Structure[] buildings = LoadStructure();
         for (int i=0; i< buildings.Length;i++)
         {
-            //TODO : 주석 풀기
-            //buildings[i].ChangeStructImage();
-            Debug.Log(buildings[i].name);
+            buildings[i].ChangeStructImage();
         }
     }
 
